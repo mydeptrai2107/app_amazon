@@ -137,7 +137,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Visit the Store',
+                      'Ghé thăm cửa hàng',
                       style: TextStyle(color: Constants.selectedNavBarColor),
                     ),
                     BlocBuilder<AverageRatingCubit, AverageRatingState>(
@@ -179,17 +179,17 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const DividerWithSizedBox(),
-            priceEmi(),
-            const DividerWithSizedBox(
-              sB1Height: 15,
-            ),
+            // const DividerWithSizedBox(),
+            // priceEmi(),
+            // const DividerWithSizedBox(
+            //   sB1Height: 15,
+            // ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 RichText(
                   text: TextSpan(
-                      text: 'Total: ',
+                      text: 'Giá: ',
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -279,16 +279,16 @@ class ProductDetailsScreen extends StatelessWidget {
                   height: 10,
                 ),
                 CustomElevatedButton(
-                    buttonText: 'Add to Cart',
+                    buttonText: 'Thêm vào giỏ hàng',
                     onPressed: () {
                       context.read<CartBloc>().add(AddToCart(product: product));
-                      showSnackBar(context, 'Added to cart!');
+                      showSnackBar(context, 'Đã thêm vào giỏ hàng!');
                     }),
                 const SizedBox(
                   height: 10,
                 ),
                 CustomElevatedButton(
-                  buttonText: 'Buy Now',
+                  buttonText: 'Mua ngay',
                   onPressed: () {
                     context.pushReplacementNamed(
                         AppRouteConstants.buyNowPaymentScreenRoute.name,
@@ -311,7 +311,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      'Secure transaction',
+                      'Giao dịch an toàn',
                       style: TextStyle(
                           color: Constants.selectedNavBarColor, fontSize: 15),
                     )
@@ -319,7 +319,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Gift-wrap available.',
+                  'Có gói quà tặng.',
                   style: TextStyle(
                       color: Colors.black87,
                       fontSize: 15,

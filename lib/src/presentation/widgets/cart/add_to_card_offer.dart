@@ -101,7 +101,7 @@ class AddToCartOffer extends StatelessWidget {
                   backgroundColor:
                       WidgetStatePropertyAll(Constants.yellowColor)),
               child: const Text(
-                'Add to Cart',
+                'Thêm vào giỏ hàng',
                 style: TextStyle(
                     fontSize: 12,
                     color: Colors.black87,

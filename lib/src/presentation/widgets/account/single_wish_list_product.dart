@@ -144,7 +144,7 @@ class SingleWishListProduct extends StatelessWidget {
                                   backgroundColor: WidgetStatePropertyAll(
                                       Constants.yellowColor)),
                               child: const Text(
-                                'Add to cart',
+                                'Thêm vào giỏ hàng',
                                 style: TextStyle(
                                     color: Colors.black87,
                                     fontWeight: FontWeight.normal),

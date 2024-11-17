@@ -166,7 +166,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               return FilledButton(
                                 onPressed: () async {
                                   showSnackBar(context,
-                                      'Order placed successfully! redirecting...');
+                                      'Đơn hàng đã được đặt thành công! chuyển hướng...');
                                   if (state.user.address == '') {
                                     context
                                         .read<UserCubit>()
