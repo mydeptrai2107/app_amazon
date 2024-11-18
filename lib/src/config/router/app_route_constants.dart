@@ -66,6 +66,11 @@ class AppRouteConstants {
   static const adminAddProductsScreen = AppRoute(
       name: 'admin-add-products-screen', path: '/admin-add-products-screen');
 
+  static const adminUpdateProductsScreen = AppRoute(
+    name: 'admin-update-products-screen',
+    path: '/admin-update-products-screen',
+  );
+
   static const adminAddOfferScreen =
       AppRoute(name: 'admin-add-offer-screen', path: '/admin-add-offer-screen');
 }

@@ -126,12 +126,6 @@ class SingleWishListProduct extends StatelessWidget {
                       'vận chuyển bởi LuvoxShop',
                       style: productTextStyle,
                     ),
-                    // const SizedBox(height: 4),
-                    const Text(
-                      '7 ngày Thay thế',
-                      style: productTextStyle,
-                    ),
-
                     Row(
                       children: [
                         Expanded(

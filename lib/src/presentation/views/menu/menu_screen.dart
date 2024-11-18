@@ -26,21 +26,21 @@ class MenuScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomTextButton(
-                    buttonText: 'Orders',
+                    buttonText: 'Đơn hàng',
                     onPressed: () => context.pushNamed(
                         AppRouteConstants.yourOrdersScreenRoute.name),
                     isMenuScreenButton: true),
                 CustomTextButton(
-                    buttonText: 'History',
+                    buttonText: 'Lịch sử',
                     onPressed: () => context.pushNamed(
                         AppRouteConstants.browsingHistoryScreenRoute.name),
                     isMenuScreenButton: true),
                 CustomTextButton(
-                    buttonText: 'Account',
+                    buttonText: 'Tài khoản',
                     onPressed: () {},
                     isMenuScreenButton: true),
                 CustomTextButton(
-                    buttonText: 'Wish List',
+                    buttonText: 'Danh sách yêu thích',
                     onPressed: () => context.pushNamed(
                         AppRouteConstants.yourWishListScreenRoute.name),
                     isMenuScreenButton: true),

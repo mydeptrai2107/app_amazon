@@ -127,7 +127,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   children: [
                     CustomTextfield(
                       controller: flatBuildingController,
-                      hintText: 'Flat, house no, building',
+                      hintText: 'Căn hộ, số nhà, tòa nhà',
                       onChanged: (string) {
                         context
                             .read<OrderCubit>()
@@ -136,15 +136,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                     CustomTextfield(
                       controller: areaController,
-                      hintText: 'Area, street',
+                      hintText: 'Xã, Phường',
                     ),
                     CustomTextfield(
                       controller: pincodeController,
-                      hintText: 'Pincode',
+                      hintText: 'Quận, Huyện',
                     ),
                     CustomTextfield(
                       controller: cityController,
-                      hintText: 'Town/city',
+                      hintText: 'Tỉnh, Thành phố',
                     ),
                     const SizedBox(
                       height: 5,
@@ -168,12 +168,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   showSnackBar(context,
                                       'Đơn hàng đã được đặt thành công! chuyển hướng...');
                                   if (state.user.address == '') {
-                                    context
-                                        .read<UserCubit>()
-                                        .saveUserAddress(address: 'as');
+                                    context.read<UserCubit>().saveUserAddress(
+                                        address:
+                                            '${flatBuildingController.text}, ${areaController.text}, ${pincodeController.text}, ${cityController.text}');
                                   }
                                   await context.read<OrderCubit>().placeOrder(
-                                      address: 'as',
+                                      address:
+                                          '${flatBuildingController.text}, ${areaController.text}, ${pincodeController.text}, ${cityController.text}',
                                       totalAmount:
                                           double.parse(widget.totalAmount));
 

@@ -63,8 +63,8 @@ class AdminRepository {
     try {
       List<String> imageUrls;
 
-       imageUrls =
-           await uploadImages(name: name, category: category, images: images);
+      imageUrls =
+          await uploadImages(name: name, category: category, images: images);
 
       Product product = Product(
           name: name,
@@ -75,6 +75,40 @@ class AdminRepository {
           price: price);
 
       http.Response res = await adminApi.adminAddProduct(product: product);
+
+      if (res.statusCode != 200) {
+        throw Exception(jsonDecode(res.body)['msg']);
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<void> adminUpdateProduct({
+    required String id,
+    required String name,
+    required String description,
+    required double price,
+    required int quantity,
+    required String category,
+    required List<File> images,
+  }) async {
+    try {
+      List<String> imageUrls;
+
+      imageUrls =
+          await uploadImages(name: name, category: category, images: images);
+
+      Product product = Product(
+          id: id,
+          name: name,
+          description: description,
+          quantity: quantity,
+          images: imageUrls,
+          category: category,
+          price: price);
+
+      http.Response res = await adminApi.adminUpdateProduct(product: product);
 
       if (res.statusCode != 200) {
         throw Exception(jsonDecode(res.body)['msg']);

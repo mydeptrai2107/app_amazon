@@ -301,42 +301,40 @@ class OrderDetailsScreen extends StatelessWidget {
                   'Thông tin thanh toán',
                   style: headingTextSyle,
                 ),
-                const SizedBox(
-                  height: 6,
-                ),
                 Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 14),
-                    alignment: Alignment.centerLeft,
-                    decoration: containerDecoration.copyWith(
-                      border: const Border(
-                          left: BorderSide(color: Colors.black12, width: 1),
-                          right: BorderSide(color: Colors.black12, width: 1),
-                          top: BorderSide(color: Colors.black12, width: 1),
-                          bottom: BorderSide(color: Colors.black12, width: 0)),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5)),
+                  width: double.infinity,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                  alignment: Alignment.centerLeft,
+                  decoration: containerDecoration.copyWith(
+                    border: const Border(
+                        left: BorderSide(color: Colors.black12, width: 1),
+                        right: BorderSide(color: Colors.black12, width: 1),
+                        top: BorderSide(color: Colors.black12, width: 1),
+                        bottom: BorderSide(color: Colors.black12, width: 0)),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Phương thức thanh toán',
-                          style: textStyle.copyWith(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w600),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Phương thức thanh toán',
+                        style: textStyle.copyWith(
+                            color: Colors.black87, fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        'Google Pay',
+                        style: textStyle.copyWith(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.normal,
                         ),
-                        Text(
-                          'Google Pay',
-                          style: textStyle.copyWith(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ],
-                    )),
+                      ),
+                    ],
+                  ),
+                ),
                 Container(
                   width: double.infinity,
                   padding:

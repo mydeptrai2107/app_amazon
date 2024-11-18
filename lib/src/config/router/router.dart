@@ -243,7 +243,25 @@ final router = GoRouter(initialLocation: '/', routes: [
     path: AppRouteConstants.adminAddProductsScreen.path,
     name: AppRouteConstants.adminAddProductsScreen.name,
     pageBuilder: (context, state) {
-      return const MaterialPage(child: AdminAddProductScreen());
+      return const MaterialPage(
+        child: AdminAddProductScreen(
+        ),
+      );
+    },
+  ),
+
+  GoRoute(
+    path: AppRouteConstants.adminUpdateProductsScreen.path,
+    name: AppRouteConstants.adminUpdateProductsScreen.name,
+    pageBuilder: (context, state) {
+      Map<String, dynamic> extraData = state.extra as Map<String, dynamic>;
+
+      Product product = extraData['product'] as Product;
+      return MaterialPage(
+        child: AdminAddProductScreen(
+          product: product,
+        ),
+      );
     },
   ),
   GoRoute(

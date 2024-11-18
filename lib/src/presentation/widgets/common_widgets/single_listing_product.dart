@@ -124,11 +124,6 @@ class SingleListingProduct extends StatelessWidget {
                       'Giao hàng MIỄN PHÍ bởi LovuxShop',
                       style: productTextStyle,
                     ),
-                    // const SizedBox(height: 4),
-                    const Text(
-                      '7 ngày Thay thế',
-                      style: productTextStyle,
-                    ),
                   ],
                 ),
               ),
