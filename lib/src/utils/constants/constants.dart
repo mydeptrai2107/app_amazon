@@ -378,61 +378,61 @@ class Constants {
   static const List<Map<String, String>> productQualityDetails = [
     {
       'iconName': 'replacement.png',
-      'title': '7 days Service Centre Replacement'
+      'title': '7 ngày Trung tâm dịch vụ thay thế'
     },
-    {'iconName': 'free_delivery.png', 'title': 'Free Delivery'},
-    {'iconName': 'warranty.png', 'title': '1 Year Warranty'},
-    {'iconName': 'pay_on_delivery.png', 'title': 'Pay on Delivery'},
-    {'iconName': 'top_brand.png', 'title': 'Top Brand'},
-    {'iconName': 'delivered.png', 'title': 'Amazon Delivered'},
+    {'iconName': 'free_delivery.png', 'title': 'Giao hàng miễn phí'},
+    {'iconName': 'warranty.png', 'title': 'Bảo hành 1 năm'},
+    {'iconName': 'pay_on_delivery.png', 'title': 'Thanh toán khi nhận hàng'},
+    {'iconName': 'top_brand.png', 'title': 'Thương hiệu hàng đầu'},
+    {'iconName': 'delivered.png', 'title': 'Amazon giao hàng'},
   ];
 
   static const List<Map<String, String>> menuScreenImages = [
     {
       'title': 'Mobiles, Smartphones',
-      'name' : 'Điện thoại di động',
+      'name': 'Điện thoại di động',
       'category': 'Mobiles',
       'image':
           'https://res.cloudinary.com/dthljz11q/image/upload/v1699008683/menu_screen_images/hpaduzg6ws3gttr1fvqc.png',
     },
     {
       'title': 'Fashion, Clothing',
-      'name' : 'Thời trang, Quần áo',
+      'name': 'Thời trang, Quần áo',
       'category': 'Fashion',
       'image':
           'https://res.cloudinary.com/dthljz11q/image/upload/v1699008683/menu_screen_images/kf3f4gsxfrc05iewamt3.png'
     },
     {
       'title': 'Electronics & Audio',
-      'name' : 'Điện tử & Âm thanh',
+      'name': 'Điện tử & Âm thanh',
       'category': 'Electronics',
       'image':
           'https://res.cloudinary.com/dthljz11q/image/upload/v1699008678/menu_screen_images/kurapdxq9i2n2m6vvdyz.png'
     },
     {
       'title': 'Home, Kitchen & Decor',
-      'name' : 'Nhà, Nhà bếp & Trang trí',
+      'name': 'Nhà, Nhà bếp & Trang trí',
       'category': 'Home',
       'image':
           'https://res.cloudinary.com/dthljz11q/image/upload/v1699008675/menu_screen_images/jyp9jwyudc0jh6gao2uc.png'
     },
     {
       'title': 'Beauty, Skincare',
-      'name' : 'Làm đẹp, Chăm sóc da',
+      'name': 'Làm đẹp, Chăm sóc da',
       'category': 'Beauty',
       'image':
           'https://res.cloudinary.com/dthljz11q/image/upload/v1699008678/menu_screen_images/b5zl9qkm3cx20eklrfjm.png'
     },
     {
       'title': 'Appliances',
-      'name' : 'Thiết bị gia dụng',
+      'name': 'Thiết bị gia dụng',
       'category': 'Appliances',
       'image':
           'https://res.cloudinary.com/dthljz11q/image/upload/v1699008672/menu_screen_images/i8u2o2lknnqhjaybewbr.png'
     },
     {
       'title': 'Grocery, Food & Beverages',
-      'name' : 'Cửa hàng tạp hóa',
+      'name': 'Cửa hàng tạp hóa',
       'category': 'Grocery',
       'image':
           'https://res.cloudinary.com/dthljz11q/image/upload/v1699008681/menu_screen_images/wlad5ab74zzn49iqhkbk.png'

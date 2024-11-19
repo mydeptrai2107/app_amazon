@@ -307,15 +307,9 @@ class OrderDetailsScreen extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                   alignment: Alignment.centerLeft,
                   decoration: containerDecoration.copyWith(
-                    border: const Border(
-                        left: BorderSide(color: Colors.black12, width: 1),
-                        right: BorderSide(color: Colors.black12, width: 1),
-                        top: BorderSide(color: Colors.black12, width: 1),
-                        bottom: BorderSide(color: Colors.black12, width: 0)),
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5),
-                    ),
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

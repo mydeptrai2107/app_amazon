@@ -17,11 +17,15 @@ import 'package:flutter_amazon_clone_bloc/src/utils/constants/constants.dart';
 import 'package:flutter_amazon_clone_bloc/src/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   getCartOffers(context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('x-auth-token');
+    if (token == null || token.isEmpty) return;
     List<String> categories =
         await BlocProvider.of<CartOffersCubit1>(context).setOfferCategories();
     BlocProvider.of<CartOffersCubit1>(context)
@@ -81,8 +85,10 @@ class CartScreen extends StatelessWidget {
                                             width: 180,
                                           ),
                                         ),
-                                        const Text(
-                                            'Giỏ hàng LuvoxShope của bạn trống')
+                                        const Expanded(
+                                          child: Text(
+                                              'Giỏ hàng LuvoxShope của bạn trống'),
+                                        )
                                       ],
                                     ),
                                   )

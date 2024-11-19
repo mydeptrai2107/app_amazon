@@ -24,6 +24,7 @@ import 'package:flutter_amazon_clone_bloc/src/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final Product product;
@@ -94,7 +95,15 @@ class ProductDetailsScreen extends StatelessWidget {
                               return WishListIcon(
                                 iconColor: Colors.grey,
                                 product: product,
-                                onPressed: () {
+                                onPressed: () async {
+                                  final SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  final token = prefs.getString('x-auth-token');
+                                  if (token == null || token.isEmpty) {
+                                    context.pushNamed(
+                                        AppRouteConstants.authRoute.name);
+                                    return;
+                                  }
                                   context
                                       .read<WishListCubit>()
                                       .addToWishList(product: product);
@@ -105,7 +114,11 @@ class ProductDetailsScreen extends StatelessWidget {
                               return WishListIcon(
                                 iconColor: Colors.red,
                                 product: product,
-                                onPressed: () {
+                                onPressed: () async {
+                                  final SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  final token = prefs.getString('x-auth-token');
+                                  if (token == null || token.isEmpty) return;
                                   context
                                       .read<WishListCubit>()
                                       .deleteFromWishList(product: product);
@@ -246,7 +259,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           if (state.user.address != '') {
                             return Expanded(
                               child: Text(
-                                'Deliver to ${capitalizeFirstLetter(string: state.user.name)} - ${state.user.address}',
+                                'Giao hàng đến ${capitalizeFirstLetter(string: state.user.name)} - ${state.user.address}',
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
@@ -256,7 +269,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           } else {
                             return Expanded(
                               child: Text(
-                                'Deliver to ${state.user.name} ',
+                                'Giao hàng đến ${state.user.name} ',
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
@@ -272,7 +285,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'In stock',
+                  'Còn hàng',
                   style: TextStyle(color: Constants.greenColor, fontSize: 16),
                 ),
                 const SizedBox(
@@ -280,7 +293,15 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 CustomElevatedButton(
                     buttonText: 'Thêm vào giỏ hàng',
-                    onPressed: () {
+                    onPressed: () async {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      final token = prefs.getString('x-auth-token');
+                      if (token == null || token.isEmpty) {
+                        context.pushNamed(AppRouteConstants.authRoute.name);
+                        return;
+                      }
+
                       context.read<CartBloc>().add(AddToCart(product: product));
                       showSnackBar(context, 'Đã thêm vào giỏ hàng!');
                     }),
@@ -289,7 +310,14 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 CustomElevatedButton(
                   buttonText: 'Mua ngay',
-                  onPressed: () {
+                  onPressed: () async {
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    final token = prefs.getString('x-auth-token');
+                    if (token == null || token.isEmpty) {
+                      context.pushNamed(AppRouteConstants.authRoute.name);
+                      return;
+                    }
                     context.pushReplacementNamed(
                         AppRouteConstants.buyNowPaymentScreenRoute.name,
                         extra: {
@@ -477,7 +505,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
             children: [
               TextSpan(
-                text: 'from đ${getEmi(product)}. No Cost EMI available.',
+                text: 'từ đ${getEmi(product)}. Không có chi phí trả góp EMI.',
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.normal,
@@ -485,7 +513,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: ' EMI options',
+                text: ' Tùy chọn EMI',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.normal,
@@ -496,7 +524,7 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
         ),
         const Text(
-          'Inclusive of all texes',
+          'Bao gồm tất cả các texes',
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.normal,
