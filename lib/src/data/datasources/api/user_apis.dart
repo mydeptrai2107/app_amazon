@@ -223,7 +223,10 @@ class UserApi {
   }
 
   Future<http.Response> placeOrder(
-      {required double totalPrice, required String address}) async {
+      {required double totalPrice,
+      required String address,
+      required bool paid,
+      required String payMethod}) async {
     final token = await getToken();
     try {
       http.Response res = await client.post(
@@ -236,6 +239,8 @@ class UserApi {
           {
             "totalPrice": totalPrice,
             "address": address,
+            "paid": paid,
+            "payMethod": payMethod
           },
         ),
       );

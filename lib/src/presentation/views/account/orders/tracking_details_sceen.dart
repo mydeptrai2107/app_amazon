@@ -236,7 +236,7 @@ class UserAddressBlock extends StatelessWidget {
                       });
                 },
                 child: Text(
-                  'See all updates',
+                  'Xem trạng thái đơn',
                   style: subtextStyle.copyWith(
                       color: Constants.selectedNavBarColor),
                 ),

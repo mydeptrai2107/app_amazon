@@ -278,7 +278,7 @@ class AdminRepository {
   Future<Map<String, dynamic>> adminGetAnalytics() async {
     try {
       List<Sales> sales;
-      int totalEarnings;
+      double totalEarnings;
 
       http.Response res = await adminApi.adminGetAnalytics();
 
@@ -288,15 +288,16 @@ class AdminRepository {
         totalEarnings = resDecoded['totalEarnings'];
 
         sales = [
-          Sales('Mobiles', resDecoded['mobileEarnings'] ?? 0),
-          Sales('Fashion', resDecoded['fashionEarnings'] ?? 0),
-          Sales('Electronics', resDecoded['electronicsEarnings'] ?? 0),
-          Sales('Home', resDecoded['homeEarnings'] ?? 0),
-          Sales('Beauty', resDecoded['beautyEarnings'] ?? 0),
-          Sales('Appliances', resDecoded['appliancesEarnings'] ?? 0),
-          Sales('Grocery', resDecoded['groceryEarnings'] ?? 0),
-          Sales('Books', resDecoded['booksEarnings'] ?? 0),
-          Sales('Essentials', resDecoded['essentialsEarnings'] ?? 0),
+          Sales('Mobiles', resDecoded['mobileEarnings'].toDouble() ?? 0),
+          Sales('Fashion', resDecoded['fashionEarnings'].toDouble() ?? 0),
+          Sales(
+              'Electronics', resDecoded['electronicsEarnings'].toDouble() ?? 0),
+          Sales('Home', resDecoded['homeEarnings'].toDouble() ?? 0),
+          Sales('Beauty', resDecoded['beautyEarnings'].toDouble() ?? 0),
+          Sales('Appliances', resDecoded['appliancesEarnings'].toDouble() ?? 0),
+          Sales('Grocery', resDecoded['groceryEarnings'].toDouble() ?? 0),
+          Sales('Books', resDecoded['booksEarnings'].toDouble() ?? 0),
+          Sales('Essentials', resDecoded['essentialsEarnings'].toDouble() ?? 0),
         ];
 
         return {

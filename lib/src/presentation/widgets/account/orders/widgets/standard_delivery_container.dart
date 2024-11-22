@@ -21,7 +21,7 @@ class StandardDeliveryContainer extends StatelessWidget {
             topLeft: Radius.circular(5), topRight: Radius.circular(5)),
       ),
       child: Text(
-        'Standard Delivery',
+        'Giao hàng tiêu chuẩn',
         style: textSyle,
         textAlign: TextAlign.justify,
       ),

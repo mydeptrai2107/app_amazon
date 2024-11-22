@@ -71,13 +71,11 @@ class OrderDetailsScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        'Ngày đặt hàng        ${formatDate(order.orderedAt)}',
+                        'Ngày đặt hàng: ${formatDate(order.orderedAt)}',
                         style: textStyle,
                       ),
-                      Text('Đơn hàng #              ${order.id}',
-                          style: textStyle),
-                      Text(
-                          'Tổng đơn hàng        đ${formatPrice(order.totalPrice)}',
+                      Text('Đơn hàng: #${order.id}', style: textStyle),
+                      Text('Tổng đơn hàng: ${formatPrice(order.totalPrice)}đ',
                           style: textStyle),
                     ],
                   ),
@@ -311,19 +309,36 @@ class OrderDetailsScreen extends StatelessWidget {
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5)),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
                     children: [
-                      Text(
-                        'Phương thức thanh toán',
-                        style: textStyle.copyWith(
-                            color: Colors.black87, fontWeight: FontWeight.w600),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Phương thức thanh toán',
+                              style: textStyle.copyWith(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              order.payMethod == 'cod'
+                                  ? 'Thanh toán khi giao hàng'
+                                  : 'Thanh toán với ZaloPay',
+                              style: textStyle.copyWith(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Text(
-                        'Google Pay',
-                        style: textStyle.copyWith(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.normal,
+                        !order.paid ? 'Chưa thanh toán' : 'Đã thanh toán',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: !order.paid ? Colors.red : Colors.green,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],

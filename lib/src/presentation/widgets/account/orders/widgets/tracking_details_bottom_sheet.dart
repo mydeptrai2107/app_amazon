@@ -83,17 +83,18 @@ class StepperWidget extends StatelessWidget {
       width: double.infinity,
       child: Stepper(
         physics: const NeverScrollableScrollPhysics(),
-        currentStep: currentStep,
+        currentStep: currentStep == 4 ? 3 : currentStep,
         controlsBuilder: ((context, details) {
-          if (user.type == 'admin') {
+          if (user.type == 'admin' && currentStep < 4) {
             return CustomElevatedButton(
               buttonText: 'Xong',
               onPressed: () {
+                if (currentStep == 4) return;
                 context
                     .read<AdminChangeOrderStatusCubit>()
                     .adminChangeOrderStatus(
                       orderId: order.id,
-                      status: order.status + 1,
+                      status: currentStep + 1,
                     );
               },
             );

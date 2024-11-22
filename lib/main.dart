@@ -44,6 +44,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'src/logic/blocs/order/payment_cubit/payment_cubit.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
@@ -148,6 +150,7 @@ class MyApp extends StatelessWidget {
             create: (context) => AdminFourImageOfferCubit(AdminRepository())),
         BlocProvider(
             create: (context) => DealOfTheDayCubit(ProductsRepository())),
+        BlocProvider(create: (context) => PaymentCubit())
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

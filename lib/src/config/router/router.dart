@@ -29,6 +29,7 @@ import 'package:flutter_amazon_clone_bloc/src/presentation/views/cart/cart_scree
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/category_products/category_products_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/home/home_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/menu/menu_screen.dart';
+import 'package:flutter_amazon_clone_bloc/src/presentation/views/payment/payment_method_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/payment/payment_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/payment/payment_screen_buy_now.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/product_details/product_details_screen.dart';
@@ -203,7 +204,16 @@ final router = GoRouter(initialLocation: '/', routes: [
         double totalAmount = state.extra as double;
         return MaterialPage(
             child: PaymentScreen(totalAmount: totalAmount.toString()));
-      }),
+      },
+      routes: [
+        GoRoute(
+            path: AppRouteConstants.paymentMethod.path,
+            name: AppRouteConstants.paymentMethod.name,
+            pageBuilder: (context, state) {
+              return const MaterialPage(child: PaymentMethodScreen());
+            }),
+      ]),
+
   GoRoute(
       name: AppRouteConstants.buyNowPaymentScreenRoute.name,
       path: AppRouteConstants.buyNowPaymentScreenRoute.path,
@@ -244,8 +254,7 @@ final router = GoRouter(initialLocation: '/', routes: [
     name: AppRouteConstants.adminAddProductsScreen.name,
     pageBuilder: (context, state) {
       return const MaterialPage(
-        child: AdminAddProductScreen(
-        ),
+        child: AdminAddProductScreen(),
       );
     },
   ),

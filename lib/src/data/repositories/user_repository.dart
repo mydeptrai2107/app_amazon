@@ -340,10 +340,10 @@ class UserRepository {
   }
 
   Future<Order> placeOrder(
-      {required double totalPrice, required String address}) async {
+      {required double totalPrice, required String address,  bool paid = false, required String payMethod}) async {
     try {
       http.Response res =
-          await userApi.placeOrder(totalPrice: totalPrice, address: address);
+          await userApi.placeOrder(totalPrice: totalPrice, address: address,paid:paid,payMethod:payMethod);
 
       if (res.statusCode == 200) {
         Order order = Order.fromJson(
