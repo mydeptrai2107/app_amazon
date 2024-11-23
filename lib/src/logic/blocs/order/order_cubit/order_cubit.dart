@@ -112,11 +112,15 @@ class OrderCubit extends Cubit<OrderState> {
   Future<bool> placeOrder(
       {required String address,
       required double totalAmount,
-      required String payMethod}) async {
+      required String payMethod,
+      String? voucherCode}) async {
     try {
       if (payMethod == 'cod') {
         await userRepository.placeOrder(
-            totalPrice: totalAmount, address: address, payMethod: payMethod);
+            totalPrice: totalAmount,
+            voucherCode: voucherCode,
+            address: address,
+            payMethod: payMethod);
         return true;
       }
       var result = await createOrder(totalAmount);
@@ -125,7 +129,11 @@ class OrderCubit extends Cubit<OrderState> {
         final status = await _pay(zpTransToken);
         if (status == PayStatus.success) {
           await userRepository.placeOrder(
-              totalPrice: totalAmount, address: address, paid: true,payMethod: payMethod);
+              totalPrice: totalAmount,
+              voucherCode: voucherCode,
+              address: address,
+              paid: true,
+              payMethod: payMethod);
           return true;
         }
         return false;

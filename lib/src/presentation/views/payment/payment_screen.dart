@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_amazon_clone_bloc/src/config/router/app_route_constants.dart';
+import 'package:flutter_amazon_clone_bloc/src/data/models/voucher.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/cart/cart_bloc.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/order/order_cubit/order_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/order/payment_cubit/payment_cubit.dart';
+import 'package:flutter_amazon_clone_bloc/src/logic/blocs/order/voucher/voucher_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/user_cubit/user_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/widgets/common_widgets/custom_textfield.dart';
 import 'package:flutter_amazon_clone_bloc/src/utils/constants/constants.dart';
@@ -161,6 +163,41 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 child: Row(
                   children: [
                     Text(
+                      'Mã khuyến mãi: ',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        context.pushNamed(
+                            AppRouteConstants.voucherScreenRoute.name);
+                      },
+                      child: BlocBuilder<VoucherCubit, VoucherState>(
+                          builder: (context, state) {
+                        if (state is SelectedVoucherState) {
+                          return Text(
+                            state.selected.code.toString(),
+                            style: const TextStyle(
+                                color: Constants.secondaryColor),
+                          );
+                        }
+                        return const Text(
+                          'Chọn',
+                          style: TextStyle(color: Constants.secondaryColor),
+                        );
+                      }),
+                    )
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
                       'Phương thức thanh toán: ',
                       style: Theme.of(context)
                           .textTheme
@@ -197,149 +234,144 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: FutureBuilder<PaymentConfiguration>(
-            future: _googlePayConfigFuture,
-            builder: (context, snapshot) => snapshot.hasData
-                ? BlocConsumer<OrderCubit, OrderState>(
-                    listener: (context, state) {
-                      if (state is OrderErrorS) {
-                        showSnackBar(context, state.errorString);
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is OrderProcessS) {
-                        return BlocBuilder<PaymentCubit, PaymentState>(
-                          builder: (context, payState) {
-                            return FilledButton(
-                              onPressed: () async {
-                                if (payState is PaymentMethodSelected) {
-                                  showSnackBar(context,
-                                      'Đơn hàng đã được đặt thành công! chuyển hướng...');
-                                  if (state.user.address == '') {
-                                    context.read<UserCubit>().saveUserAddress(
-                                        address:
-                                            '${flatBuildingController.text}, ${areaController.text}, ${pincodeController.text}, ${cityController.text}');
-                                  }
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => const Center(
-                                            child: CircularProgressIndicator(),
-                                          ));
-                                  final success = await context
-                                      .read<OrderCubit>()
-                                      .placeOrder(
-                                          address:
-                                              '${flatBuildingController.text}, ${areaController.text}, ${pincodeController.text}, ${cityController.text}',
-                                          totalAmount:
-                                              double.parse(widget.totalAmount),
-                                          payMethod: payState.paymentMethod);
-                                  context.pop();
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                            content: Text(success
-                                                ? "Thanh toán thành công"
-                                                : "Thanh toán thất bại"),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  if (success) {
-                                                    context
-                                                        .read<CartBloc>()
-                                                        .add(GetCartPressed());
-                                                    context.pop();
-                                                    context.pop();
-                                                  }
-                                                },
-                                                child: Text(success
-                                                    ? 'Tiếp tục'
-                                                    : 'Thử lại'),
-                                              ),
-                                            ],
-                                          ));
-                                } else {
-                                  showSnackBar(context,
-                                      'Vui lòng chọn phương thức thanh toán');
+        child: BlocSelector<VoucherCubit, VoucherState, Voucher?>(
+          selector: (state) {
+            if (state is SelectedVoucherState) {
+              return state.selected;
+            }
+            return null;
+          },
+          builder: (context, voucher) {
+            return Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Total: ${_caculateTotalAmount(widget.totalAmount, voucher)} vnđ',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  child: FutureBuilder<PaymentConfiguration>(
+                      future: _googlePayConfigFuture,
+                      builder: (context, snapshot) => snapshot.hasData
+                          ? BlocConsumer<OrderCubit, OrderState>(
+                              listener: (context, state) {
+                                if (state is OrderErrorS) {
+                                  showSnackBar(context, state.errorString);
                                 }
                               },
-                              child: const Text('Order'),
-                            );
-                          },
-                        );
-                        // return GooglePayButton(
-                        //   onPressed: () {
-                        //     addressToBeUsed = '';
-                        //     bool isFromForm =
-                        //         flatBuildingController.text.isNotEmpty ||
-                        //             areaController.text.isNotEmpty ||
-                        //             pincodeController.text.isNotEmpty ||
-                        //             cityController.text.isNotEmpty;
+                              builder: (context, state) {
+                                if (state is OrderProcessS) {
+                                  return BlocBuilder<PaymentCubit,
+                                      PaymentState>(
+                                    builder: (context, payState) {
+                                      return FilledButton(
+                                        onPressed: () async {
+                                          if (payState
+                                              is PaymentMethodSelected) {
+                                            showSnackBar(context,
+                                                'Đơn hàng đã được đặt thành công! chuyển hướng...');
+                                            if (state.user.address == '') {
+                                              context
+                                                  .read<UserCubit>()
+                                                  .saveUserAddress(
+                                                      address:
+                                                          '${flatBuildingController.text}, ${areaController.text}, ${pincodeController.text}, ${cityController.text}');
+                                            }
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    const Center(
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    ));
+                                            final success = await context
+                                                .read<OrderCubit>()
+                                                .placeOrder(
+                                                    address:
+                                                        '${flatBuildingController.text}, ${areaController.text}, ${pincodeController.text}, ${cityController.text}',
+                                                  voucherCode:voucher?.code,  totalAmount: double.parse(
+                                                        widget.totalAmount),
+                                                    payMethod:
+                                                        payState.paymentMethod);
+                                            context.pop();
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                      content: Text(success
+                                                          ? "Thanh toán thành công"
+                                                          : "Thanh toán thất bại"),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            if (success) {
+                                                              context
+                                                                  .read<
+                                                                      CartBloc>()
+                                                                  .add(
+                                                                      GetCartPressed());
+                                                              context.pop();
+                                                              context.pop();
+                                                            }
+                                                          },
+                                                          child: Text(success
+                                                              ? 'Tiếp tục'
+                                                              : 'Thử lại'),
+                                                        ),
+                                                      ],
+                                                    ));
+                                          } else {
+                                            showSnackBar(context,
+                                                'Vui lòng chọn phương thức thanh toán');
+                                          }
+                                        },
+                                        child: const Text('Order'),
+                                      );
+                                    },
+                                  );
+                                }
+                                if (state is DisableButtonS) {
+                                  return GPayDisabledButton(
+                                      flatBuildingController:
+                                          flatBuildingController,
+                                      areaController: areaController,
+                                      pincodeController: pincodeController,
+                                      cityController: cityController,
+                                      addressFormKey: _addressFormKey);
+                                }
 
-                        //     if (isFromForm) {
-                        //       if (_addressFormKey.currentState!
-                        //           .validate()) {
-                        //         addressToBeUsed =
-                        //             '${flatBuildingController.text}, ${areaController.text}, ${cityController.text}, ${pincodeController.text}';
-                        //       } else {
-                        //         throw Exception(
-                        //             'Please enter all the values');
-                        //       }
-                        //     } else if (addressToBeUsed.isEmpty) {
-                        //       addressToBeUsed = state.user.address;
-                        //     } else {
-                        //       showSnackBar(context, 'ERROR');
-                        //     }
-                        //   },
-                        //   width: double.infinity,
-                        //   height: 50,
-                        //   paymentConfiguration: snapshot.data!,
-                        //   paymentItems: state.paymentItems,
-                        //   type: GooglePayButtonType.order,
-                        //   margin: const EdgeInsets.only(top: 15.0),
-                        //   onPaymentResult: (res) async {
-                        //     showSnackBar(context,
-                        //         'Order placed successfully! redirecting...');
-                        //     if (state.user.address == '') {
-                        //       context.read<UserCubit>().saveUserAddress(
-                        //           address: addressToBeUsed);
-                        //     }
-                        //     await context.read<OrderCubit>().placeOrder(
-                        //         address: addressToBeUsed,
-                        //         totalAmount:
-                        //             double.parse(widget.totalAmount));
-
-                        //     if (context.mounted) {
-                        //       context
-                        //           .read<CartBloc>()
-                        //           .add(GetCartPressed());
-                        //       Navigator.pop(context);
-                        //     }
-                        //   },
-                        //   loadingIndicator: const Center(
-                        //     child: CircularProgressIndicator(),
-                        //   ),
-                        // );
-                      }
-                      if (state is DisableButtonS) {
-                        return GPayDisabledButton(
-                            flatBuildingController: flatBuildingController,
-                            areaController: areaController,
-                            pincodeController: pincodeController,
-                            cityController: cityController,
-                            addressFormKey: _addressFormKey);
-                      }
-
-                      return GPayDisabledButton(
-                          flatBuildingController: flatBuildingController,
-                          areaController: areaController,
-                          pincodeController: pincodeController,
-                          cityController: cityController,
-                          addressFormKey: _addressFormKey);
-                    },
-                  )
-                : const SizedBox.shrink()),
+                                return GPayDisabledButton(
+                                    flatBuildingController:
+                                        flatBuildingController,
+                                    areaController: areaController,
+                                    pincodeController: pincodeController,
+                                    cityController: cityController,
+                                    addressFormKey: _addressFormKey);
+                              },
+                            )
+                          : const SizedBox.shrink()),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
+  }
+
+  String _caculateTotalAmount(String total, Voucher? voucher) {
+    if (voucher != null) {
+      if (voucher.discountType == 'percentage') {
+        total = (double.parse(total) -
+                (double.parse(total) * voucher.discountValue! / 100))
+            .toStringAsFixed(2);
+      } else {
+        total =
+            (double.parse(total) - voucher.discountValue!).toStringAsFixed(2);
+      }
+    }
+    return total;
   }
 }
 
@@ -399,3 +431,58 @@ class GPayDisabledButton extends StatelessWidget {
     );
   }
 }
+
+
+// return GooglePayButton(
+                              //   onPressed: () {
+                              //     addressToBeUsed = '';
+                              //     bool isFromForm =
+                              //         flatBuildingController.text.isNotEmpty ||
+                              //             areaController.text.isNotEmpty ||
+                              //             pincodeController.text.isNotEmpty ||
+                              //             cityController.text.isNotEmpty;
+
+                              //     if (isFromForm) {
+                              //       if (_addressFormKey.currentState!
+                              //           .validate()) {
+                              //         addressToBeUsed =
+                              //             '${flatBuildingController.text}, ${areaController.text}, ${cityController.text}, ${pincodeController.text}';
+                              //       } else {
+                              //         throw Exception(
+                              //             'Please enter all the values');
+                              //       }
+                              //     } else if (addressToBeUsed.isEmpty) {
+                              //       addressToBeUsed = state.user.address;
+                              //     } else {
+                              //       showSnackBar(context, 'ERROR');
+                              //     }
+                              //   },
+                              //   width: double.infinity,
+                              //   height: 50,
+                              //   paymentConfiguration: snapshot.data!,
+                              //   paymentItems: state.paymentItems,
+                              //   type: GooglePayButtonType.order,
+                              //   margin: const EdgeInsets.only(top: 15.0),
+                              //   onPaymentResult: (res) async {
+                              //     showSnackBar(context,
+                              //         'Order placed successfully! redirecting...');
+                              //     if (state.user.address == '') {
+                              //       context.read<UserCubit>().saveUserAddress(
+                              //           address: addressToBeUsed);
+                              //     }
+                              //     await context.read<OrderCubit>().placeOrder(
+                              //         address: addressToBeUsed,
+                              //         totalAmount:
+                              //             double.parse(widget.totalAmount));
+
+                              //     if (context.mounted) {
+                              //       context
+                              //           .read<CartBloc>()
+                              //           .add(GetCartPressed());
+                              //       Navigator.pop(context);
+                              //     }
+                              //   },
+                              //   loadingIndicator: const Center(
+                              //     child: CircularProgressIndicator(),
+                              //   ),
+                              // );

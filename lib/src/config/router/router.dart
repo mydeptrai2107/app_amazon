@@ -32,6 +32,7 @@ import 'package:flutter_amazon_clone_bloc/src/presentation/views/menu/menu_scree
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/payment/payment_method_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/payment/payment_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/payment/payment_screen_buy_now.dart';
+import 'package:flutter_amazon_clone_bloc/src/presentation/views/payment/voucher_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/product_details/product_details_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/search/search_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/splash_screen/splash_screen.dart';
@@ -198,22 +199,26 @@ final router = GoRouter(initialLocation: '/', routes: [
         return const MaterialPage(child: CartScreen());
       }),
   GoRoute(
-      name: AppRouteConstants.paymentScreenRoute.name,
-      path: AppRouteConstants.paymentScreenRoute.path,
+    name: AppRouteConstants.paymentScreenRoute.name,
+    path: AppRouteConstants.paymentScreenRoute.path,
+    pageBuilder: (context, state) {
+      double totalAmount = state.extra as double;
+      return MaterialPage(
+          child: PaymentScreen(totalAmount: totalAmount.toString()));
+    },
+  ),
+  GoRoute(
+      path: AppRouteConstants.paymentMethod.path,
+      name: AppRouteConstants.paymentMethod.name,
       pageBuilder: (context, state) {
-        double totalAmount = state.extra as double;
-        return MaterialPage(
-            child: PaymentScreen(totalAmount: totalAmount.toString()));
-      },
-      routes: [
-        GoRoute(
-            path: AppRouteConstants.paymentMethod.path,
-            name: AppRouteConstants.paymentMethod.name,
-            pageBuilder: (context, state) {
-              return const MaterialPage(child: PaymentMethodScreen());
-            }),
-      ]),
-
+        return const MaterialPage(child: PaymentMethodScreen());
+      }),
+  GoRoute(
+      path: AppRouteConstants.voucherScreenRoute.path,
+      name: AppRouteConstants.voucherScreenRoute.name,
+      pageBuilder: (context, state) {
+        return const MaterialPage(child: VoucherScreen());
+      }),
   GoRoute(
       name: AppRouteConstants.buyNowPaymentScreenRoute.name,
       path: AppRouteConstants.buyNowPaymentScreenRoute.path,
