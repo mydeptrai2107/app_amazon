@@ -23,10 +23,10 @@ class User extends Equatable {
     required this.address,
     required this.type,
     required this.token,
-    required this.cart,
-    required this.saveForLater,
-    required this.keepShoppingFor,
-    required this.wishList,
+    this.cart = const [],
+    this.saveForLater = const [],
+    this.keepShoppingFor = const [],
+    this.wishList = const [],
   });
 
   Map<String, dynamic> toMap() {
@@ -76,7 +76,17 @@ class User extends Equatable {
       ),
     );
   }
-
+  factory User.fromMapForShop(Map<String, dynamic> map) {
+    return User(
+      id: map['_id'] ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      password: map['password'] ?? '',
+      address: map['address'] ?? '',
+      type: map['type'] ?? '',
+      token: map['token'] ?? '',
+    );
+  }
   String toJson() => json.encode(toMap());
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 

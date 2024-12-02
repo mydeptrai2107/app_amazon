@@ -22,8 +22,8 @@ class AdminRepository {
     try {
       List<String> imageUrls = [];
       String folder;
-      final String cloudinaryCloudName = 'dgfmiwien';
-      final String cloudinaryUploadPreset = 'fa3r9rsy';
+      const String cloudinaryCloudName = 'dgfmiwien';
+      const String cloudinaryUploadPreset = 'fa3r9rsy';
 
       final cloudinary = CloudinaryPublic(
           cloudinaryCloudName, cloudinaryUploadPreset,
@@ -72,7 +72,8 @@ class AdminRepository {
           quantity: quantity,
           images: imageUrls,
           category: category,
-          price: price);
+          price: price,
+          shopId: '');
 
       http.Response res = await adminApi.adminAddProduct(product: product);
 
@@ -106,7 +107,8 @@ class AdminRepository {
           quantity: quantity,
           images: imageUrls,
           category: category,
-          price: price);
+          price: price,
+          shopId: '');
 
       http.Response res = await adminApi.adminUpdateProduct(product: product);
 
@@ -285,7 +287,7 @@ class AdminRepository {
       if (res.statusCode == 200) {
         var resDecoded = jsonDecode(res.body);
 
-        totalEarnings = resDecoded['totalEarnings'];
+        totalEarnings = resDecoded['totalEarnings'].toDouble();
 
         sales = [
           Sales('Mobiles', resDecoded['mobileEarnings'].toDouble() ?? 0),

@@ -40,6 +40,7 @@ import 'package:flutter_amazon_clone_bloc/src/logic/blocs/page_redirection_cubit
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/product_details/averageRating/average_rating_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/product_details/user_rating/user_rating_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/search/bloc/search_bloc.dart';
+import 'package:flutter_amazon_clone_bloc/src/logic/blocs/shop/shop_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/user_cubit/user_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -152,7 +153,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => DealOfTheDayCubit(ProductsRepository())),
         BlocProvider(create: (context) => PaymentCubit()),
-        BlocProvider(create: (context) => VoucherCubit(UserRepository()))
+        BlocProvider(create: (context) => VoucherCubit(UserRepository())),
+        BlocProvider(create: (context) => ShopCubit())
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

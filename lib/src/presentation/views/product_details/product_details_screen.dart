@@ -8,6 +8,7 @@ import 'package:flutter_amazon_clone_bloc/src/logic/blocs/cart/cart_bloc.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/home_blocs/carousel_bloc/carousel_image_bloc.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/product_details/averageRating/average_rating_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/product_details/user_rating/user_rating_cubit.dart';
+import 'package:flutter_amazon_clone_bloc/src/logic/blocs/shop/shop_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/user_cubit/user_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/widgets/common_widgets/custom_app_bar.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/widgets/common_widgets/custom_elevated_button.dart';
@@ -145,13 +146,24 @@ class ProductDetailsScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Ghé thăm cửa hàng',
-                      style: TextStyle(color: Constants.selectedNavBarColor),
+                    TextButton.icon(
+                      onPressed: () {
+                        context.read<ShopCubit>().getShop(product.shopId);
+                        context.pushNamed(
+                          AppRouteConstants.shopRoute.name,
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                          backgroundColor:
+                              Constants.yellowColor.withOpacity(0.4)),
+                      icon: const Icon(Icons.shopping_basket_rounded),
+                      label: Text(
+                        'Ghé thăm cửa hàng',
+                        style: TextStyle(color: Constants.selectedNavBarColor),
+                      ),
                     ),
                     BlocBuilder<AverageRatingCubit, AverageRatingState>(
                       builder: (context, state) {

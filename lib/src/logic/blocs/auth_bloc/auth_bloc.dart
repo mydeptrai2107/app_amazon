@@ -53,10 +53,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     try {
-      User resUser = await authRepository.singUpUser(user);
-
+      User? resUser;
+      if (event.isShop) {
+        resUser = await authRepository.signUpShop(
+            email: event.email, password: event.password, name: event.name);
+      } else {
+        resUser = await authRepository.singUpUser(user);
+      }
       emit(CreateUserInProgressState(user: resUser));
-
       emit(CreateUserSuccessState(
           userCreatedString: 'User Created, you can sign in now!'));
     } catch (e) {
@@ -68,10 +72,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoadingState());
 
     try {
-      User user = await authRepository.signInUser(event.email, event.password);
+      User user = await (event.isShop
+          ? authRepository.signInShop(event.email, event.password)
+          : authRepository.signInUser(event.email, event.password));
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('x-auth-token', user.token);
+      await prefs.setBool('is-shop', event.isShop);
 
       emit(UpdateUserData(user: user));
 

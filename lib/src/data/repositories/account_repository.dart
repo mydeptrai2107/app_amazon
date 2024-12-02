@@ -97,10 +97,10 @@ class AccountRepository {
 
         return averageRating;
       } else {
-        throw Exception(jsonDecode(res.body)['error']);
+        return 0;
       }
     } catch (e) {
-      throw Exception(e.toString());
+      return 0;
     }
   }
 

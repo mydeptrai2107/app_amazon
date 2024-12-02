@@ -57,7 +57,7 @@ class CartOffersCubit1 extends Cubit<CartOffersState1> {
       double rating = 0;
 
       productList =
-          await categoryProductsRepository.fetchCategoryProducts(category);
+          await categoryProductsRepository.fetchCategoryProducts(category, null);
       productList.shuffle();
 
       for (int i = 0; i < productList.length; i++) {

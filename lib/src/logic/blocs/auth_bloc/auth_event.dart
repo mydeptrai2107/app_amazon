@@ -18,17 +18,19 @@ class CreateAccountPressedEvent extends AuthEvent {
   final String name;
   final String email;
   final String password;
-  CreateAccountPressedEvent(this.name, this.email, this.password);
+  final bool isShop;
+  CreateAccountPressedEvent(this.name, this.email, this.password, this.isShop);
 
   @override
-  List<Object?> get props => [name, email, password];
+  List<Object?> get props => [name, email, password, isShop];
 }
 
 class SignInPressedEvent extends AuthEvent {
   final String email;
   final String password;
+  final bool isShop;
 
-  SignInPressedEvent(this.email, this.password);
+  SignInPressedEvent(this.email, this.password, this.isShop);
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [email, password,isShop];
 }

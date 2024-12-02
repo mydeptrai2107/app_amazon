@@ -13,26 +13,22 @@ class PageRedirectionCubit extends Cubit<PageRedirectionState> {
   PageRedirectionCubit(this.authRepository) : super(PageRedirectionInitial());
 
   void redirectUser() async {
-    bool isValid;
     String userType;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String? token = prefs.getString('x-auth-token');
+      bool? isShop = prefs.getBool('is-shop');
 
       if (token == null) {
         prefs.setString('x-auth-token', '');
         token = '';
       }
-      isValid = await authRepository.isTokenValid(token: token);
 
-      if (isValid == true) {
-        User user = await userRepository.getUserDataInitial(token);
-        userType = user.type;
-        emit(PageRedirectionSuccess(isValid: isValid, userType: userType));
-      } else {
-        emit(PageRedirectionInvalid(isValid: isValid, userType: 'invalid'));
-      }
+      User user =
+          await userRepository.getUserDataInitial(token, isShop ?? false);
+      userType = user.type;
+      emit(PageRedirectionSuccess(isValid: true, userType: userType));
     } catch (e) {
       throw Exception(e.toString());
     }

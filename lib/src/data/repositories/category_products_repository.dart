@@ -7,7 +7,8 @@ import 'package:flutter_amazon_clone_bloc/src/data/datasources/api/category_prod
 class CategoryProductsRepository {
   final CategoryProductsApi categoryProductsApi = CategoryProductsApi();
 
-  Future<List<Product>> fetchCategoryProducts(String category) async {
+  Future<List<Product>> fetchCategoryProducts(
+      String category, String? shopId) async {
     List<Product> productList = [];
 
     try {
@@ -25,7 +26,9 @@ class CategoryProductsRepository {
           );
         }
 
-        return productList;
+        return productList
+            .where((product) => product.shopId == shopId)
+            .toList();
       } else {
         throw Exception(jsonDecode(res.body)['msg']);
       }

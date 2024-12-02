@@ -13,7 +13,8 @@ import 'package:go_router/go_router.dart';
 // enum Auth { signIn, signUp }
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+  final bool isShop;
+  const AuthScreen({super.key, required this.isShop});
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -58,9 +59,12 @@ class _AuthScreenState extends State<AuthScreen> {
                 const SizedBox.square(
                   dimension: 12,
                 ),
-                const Text(
-                  'Chào mừng',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
+                Text(
+                  widget.isShop
+                      ? 'Bắt đầu bán hàng với LovuxShop'
+                      : 'Chào mừng',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w400),
                 ),
                 const SizedBox.square(
                   dimension: 12,
@@ -126,13 +130,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                   child: Column(children: [
                                     CustomTextfield(
                                       controller: _nameController,
-                                      hintText: 'Họ và tên',
+                                      hintText: widget.isShop
+                                          ? 'Tên cửa hàng'
+                                          : 'Họ và tên',
                                       onChanged: (value) {
                                         context.read<AuthBloc>().add(
-                                            TextFieldChangedEvent(
-                                                _nameController.text,
-                                                _emailController.text,
-                                                _passwordController.text));
+                                              TextFieldChangedEvent(
+                                                  _nameController.text,
+                                                  _emailController.text,
+                                                  _passwordController.text),
+                                            );
                                       },
                                     ),
                                     CustomTextfield(
@@ -207,6 +214,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                         if (state is CreateUserSuccessState) {
                                           showSnackBar(
                                               context, state.userCreatedString);
+                                          context.read<RadioBloc>().add(
+                                              const RadioChangedEvent(
+                                                  auth: Auth.signIn));
                                         }
                                         if (state is CreateUserErrorState) {
                                           showSnackBar(
@@ -224,7 +234,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                             onPressed: () {
                                               if (_signUpFormKey.currentState!
                                                   .validate()) {
-                                                // signUpUser();
                                                 BlocProvider.of<AuthBloc>(
                                                         context)
                                                     .add(
@@ -232,6 +241,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                                     _nameController.text,
                                                     _emailController.text,
                                                     _passwordController.text,
+                                                    widget.isShop,
                                                   ),
                                                 );
                                               }
@@ -452,6 +462,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                                     SignInPressedEvent(
                                                       _emailController.text,
                                                       _passwordController.text,
+                                                      widget.isShop,
                                                     ),
                                                   );
                                                 }

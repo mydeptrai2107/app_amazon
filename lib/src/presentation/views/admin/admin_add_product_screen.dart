@@ -304,19 +304,30 @@ class _AdminAddProductScreenState extends State<AdminAddProductScreen> {
                                         .validate() &&
                                     imagesList.isNotEmpty &&
                                     category != 'Category') {
-                                  await context
-                                      .read<AdminSellProductCubit>()
-                                      .updateProduct(
-                                        id: widget.product!.id.toString(),
-                                        name: productNameController.text,
-                                        description: descriptionController.text,
-                                        price:
-                                            double.parse(priceController.text),
-                                        quantity:
-                                            int.parse(quantityController.text),
-                                        category: category,
-                                        images: imagesList,
-                                      );
+                                  final adminSell =
+                                      context.read<AdminSellProductCubit>();
+                                  if (widget.product != null) {
+                                    await adminSell.updateProduct(
+                                      id: widget.product!.id.toString(),
+                                      name: productNameController.text,
+                                      description: descriptionController.text,
+                                      price: double.parse(priceController.text),
+                                      quantity:
+                                          int.parse(quantityController.text),
+                                      category: category,
+                                      images: imagesList,
+                                    );
+                                  } else {
+                                    await adminSell.sellProduct(
+                                      name: productNameController.text,
+                                      description: descriptionController.text,
+                                      price: double.parse(priceController.text),
+                                      quantity:
+                                          int.parse(quantityController.text),
+                                      category: category,
+                                      images: imagesList,
+                                    );
+                                  }
 
                                   if (context.mounted) {
                                     showSnackBar(
@@ -325,7 +336,6 @@ class _AdminAddProductScreenState extends State<AdminAddProductScreen> {
                                           ? 'Đã thêm sản phẩm thành công!'
                                           : 'Đã cập nhật sản phẩm thành công',
                                     );
-                                    // Navigator.pop(context);
                                   }
                                 } else {
                                   showSnackBar(context,

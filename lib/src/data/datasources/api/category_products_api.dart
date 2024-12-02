@@ -20,4 +20,5 @@ class CategoryProductsApi {
       throw Exception(e.toString());
     }
   }
+
 }

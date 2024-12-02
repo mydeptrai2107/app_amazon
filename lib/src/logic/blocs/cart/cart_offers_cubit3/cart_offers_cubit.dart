@@ -17,8 +17,8 @@ class CartOffersCubit3 extends Cubit<CartOffersState3> {
       List<double> averageRatingList = [];
       double rating = 0;
 
-      productList =
-          await categoryProductsRepository.fetchCategoryProducts(category);
+      productList = await categoryProductsRepository.fetchCategoryProducts(
+          category, null);
       productList.shuffle();
 
       for (int i = 0; i < productList.length; i++) {

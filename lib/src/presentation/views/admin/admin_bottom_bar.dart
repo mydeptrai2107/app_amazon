@@ -64,8 +64,8 @@ class AdminBottomBar extends StatelessWidget {
                                   'x-auth-token', '');
 
                               if (context.mounted) {
-                                context
-                                    .goNamed(AppRouteConstants.authRoute.name);
+                                context.goNamed(
+                                    AppRouteConstants.splashScreen.name);
                               }
                             } catch (e) {
                               if (context.mounted) {

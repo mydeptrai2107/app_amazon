@@ -12,29 +12,59 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<PageRedirectionCubit>().redirectUser();
+    final size = MediaQuery.sizeOf(context);
     return Scaffold(
       body: BlocConsumer<PageRedirectionCubit, PageRedirectionState>(
-          listener: (context, state) {
-        if (state is PageRedirectionSuccess) {
-          if (state.userType == 'admin') {
-            context.goNamed(AppRouteConstants.adminBottomBarRoute.name);
-          } else {
-            context.goNamed(AppRouteConstants.bottomBarRoute.name);
+        listener: (context, state) {
+          if (state is PageRedirectionSuccess) {
+            if (state.userType == 'admin') {
+              context.goNamed(AppRouteConstants.adminBottomBarRoute.name);
+            } else {
+              context.goNamed(AppRouteConstants.bottomBarRoute.name);
+            }
           }
-        }
-        if (state is PageRedirectionInvalid) {
-          context.goNamed(AppRouteConstants.bottomBarRoute.name);
-        }
-      }, builder: ((context, state) {
-        return Scaffold(
-          body: Center(
-            child: Image.asset(
-              'assets/images/amazon_in_alt.png',
-              height: 52,
+        },
+        builder: ((context, state) {
+          return Scaffold(
+            body: Center(
+              child: Image.asset(
+                'assets/images/amazon_in_alt.png',
+                height: 52,
+              ),
             ),
-          ),
-        );
-      })),
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: size.width,
+                    child: FilledButton.icon(
+                      onPressed: () {
+                        context.pushNamed(
+                          AppRouteConstants.authRoute.name,
+                          extra: true,
+                        );
+                      },
+                      label: const Text('Dành cho shop'),
+                      icon: const Icon(Icons.person),
+                    ),
+                  ),
+                  SizedBox(
+                    width: size.width,
+                    child: FilledButton.icon(
+                      onPressed: () => context
+                          .goNamed(AppRouteConstants.bottomBarRoute.name),
+                      label: const Text('Bắt đầu mua sắm'),
+                      icon: const Icon(Icons.shopping_bag),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        }),
+      ),
     );
   }
 }

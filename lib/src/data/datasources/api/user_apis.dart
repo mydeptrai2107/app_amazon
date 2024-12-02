@@ -9,10 +9,11 @@ import '../../models/voucher.dart';
 class UserApi {
   final client = http.Client();
 
-  Future<http.Response> getUserDataInitial(var token) async {
+  Future<http.Response> getUserDataInitial(var token, bool isShop) async {
     try {
+      print(token);
       http.Response res = await client.get(
-        Uri.parse(getUserDataUri),
+        Uri.parse(isShop ? shopUrl : getUserDataUri),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': token,
@@ -25,11 +26,11 @@ class UserApi {
     }
   }
 
-  Future<http.Response> getUserData() async {
+  Future<http.Response> getUserData(bool isShop) async {
     final token = await getToken();
     try {
       http.Response res = await client.get(
-        Uri.parse(getUserDataUri),
+        Uri.parse(isShop ? shopUrl : getUserDataUri),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': token,

@@ -12,7 +12,7 @@ class Product extends Equatable {
   final double price;
   final String? id;
   final List<Rating>? rating;
-
+  final String shopId;
   const Product(
       {required this.name,
       required this.description,
@@ -21,7 +21,8 @@ class Product extends Equatable {
       required this.category,
       required this.price,
       this.id,
-      this.rating});
+      this.rating,
+      required this.shopId});
 
   Map<String, dynamic> toMap() {
     return {
@@ -51,7 +52,8 @@ class Product extends Equatable {
                   (x) => Rating.fromMap(x),
                 ),
               )
-            : null);
+            : null,
+        shopId: map['shopId'] ?? '');
   }
 
   String toJson() => json.encode(toMap());

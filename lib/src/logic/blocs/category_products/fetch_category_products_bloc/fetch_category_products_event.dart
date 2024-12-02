@@ -4,14 +4,16 @@ sealed class FetchCategoryProductsEvent extends Equatable {
   const FetchCategoryProductsEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class CategoryPressedEvent extends FetchCategoryProductsEvent {
   final String category;
-
-  const CategoryPressedEvent({required this.category});
+  final String? shopId;
+  const CategoryPressedEvent({
+    required this.category,this.shopId
+  });
 
   @override
-  List<Object> get props => [category];
+  List<Object?> get props => [category,shopId];
 }

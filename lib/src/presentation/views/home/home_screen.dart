@@ -73,12 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context
                                 .read<AdminFourImageOfferCubit>()
                                 .adminGetFourImagesOffer(isUser: true);
-                            return SizedBox(
-                              height: MediaQuery.sizeOf(context).height / 1.2,
-                              child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
+                            return const SizedBox.shrink();
                           }
                         },
                       ),

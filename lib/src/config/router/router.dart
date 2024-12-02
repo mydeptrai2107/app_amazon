@@ -35,6 +35,7 @@ import 'package:flutter_amazon_clone_bloc/src/presentation/views/payment/payment
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/payment/voucher_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/product_details/product_details_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/search/search_screen.dart';
+import 'package:flutter_amazon_clone_bloc/src/presentation/views/shop/shop_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/splash_screen/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -56,7 +57,9 @@ final router = GoRouter(initialLocation: '/', routes: [
     name: AppRouteConstants.authRoute.name,
     path: AppRouteConstants.authRoute.path,
     pageBuilder: (context, state) {
-      return const MaterialPage(child: AuthScreen());
+      return MaterialPage(
+        child: AuthScreen(isShop: (state.extra ?? false) as bool),
+      );
     },
   ),
   GoRoute(
@@ -71,6 +74,13 @@ final router = GoRouter(initialLocation: '/', routes: [
     path: AppRouteConstants.homeScreenRoute.path,
     pageBuilder: (context, state) {
       return const MaterialPage(child: HomeScreen());
+    },
+  ),
+  GoRoute(
+    name: AppRouteConstants.shopRoute.name,
+    path: AppRouteConstants.shopRoute.path,
+    pageBuilder: (context, state) {
+      return const MaterialPage(child: ShopScreen());
     },
   ),
   GoRoute(
@@ -156,7 +166,7 @@ final router = GoRouter(initialLocation: '/', routes: [
       return MaterialPage(
           child: BlocProvider.value(
         value: _fetchCategoryProductsBloc
-          ..add(CategoryPressedEvent(category: category!)),
+          ..add(CategoryPressedEvent(category: category!, shopId: state.extra as String?)),
         child: CategoryProductsScreen(category: category),
       ));
     },

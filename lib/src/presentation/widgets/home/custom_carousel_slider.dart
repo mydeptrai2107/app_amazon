@@ -26,7 +26,7 @@ class CustomCarouselSliderMap extends StatelessWidget {
             },
             child: CachedNetworkImage(
               imageUrl: i['image']!,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
               placeholder: (context, url) => const SizedBox(),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),

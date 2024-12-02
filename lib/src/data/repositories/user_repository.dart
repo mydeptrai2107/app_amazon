@@ -5,20 +5,23 @@ import 'package:flutter_amazon_clone_bloc/src/data/models/product.dart';
 import 'package:flutter_amazon_clone_bloc/src/data/models/user.dart';
 import 'package:flutter_amazon_clone_bloc/src/data/models/voucher.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
   final UserApi userApi = UserApi();
 
-  Future<User> getUserDataInitial(var token) async {
+  Future<User> getUserDataInitial(var token, bool isShop) async {
     try {
-      http.Response res = await userApi.getUserDataInitial(token);
+      http.Response res = await userApi.getUserDataInitial(token, isShop);
 
       if (res.statusCode == 200) {
-        User user = User.fromJson(
-          jsonEncode(
-            jsonDecode(res.body),
-          ),
-        );
+        User user = isShop
+            ? User.fromMapForShop(jsonDecode(res.body))
+            : User.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body),
+                ),
+              );
         return user;
       } else {
         throw Exception(jsonDecode(res.body)['msg']);
@@ -30,14 +33,18 @@ class UserRepository {
 
   Future<User> getUserData() async {
     try {
-      http.Response res = await userApi.getUserData();
+      final pref = await SharedPreferences.getInstance();
+      final isShop = pref.getBool('is-shop') ?? false;
+      http.Response res = await userApi.getUserData(isShop);
 
       if (res.statusCode == 200) {
-        User user = User.fromJson(
-          jsonEncode(
-            jsonDecode(res.body),
-          ),
-        );
+        User user = isShop
+            ? User.fromMapForShop(jsonDecode(res.body))
+            : User.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body),
+                ),
+              );
         return user;
       } else {
         throw Exception(jsonDecode(res.body)['msg']);
@@ -344,7 +351,8 @@ class UserRepository {
       {required double totalPrice,
       required String address,
       bool paid = false,
-      required String payMethod, String? voucherCode}) async {
+      required String payMethod,
+      String? voucherCode}) async {
     try {
       http.Response res = await userApi.placeOrder(
           totalPrice: totalPrice,

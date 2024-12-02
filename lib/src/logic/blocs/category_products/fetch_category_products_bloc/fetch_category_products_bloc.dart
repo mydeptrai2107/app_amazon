@@ -25,7 +25,7 @@ class FetchCategoryProductsBloc
       emit(FetchCategoryProductsLoadingS());
 
       productList =
-          await categoryProductRepository.fetchCategoryProducts(event.category);
+          await categoryProductRepository.fetchCategoryProducts(event.category,event.shopId);
       productList.shuffle();
 
       for (int i = 0; i < productList.length; i++) {

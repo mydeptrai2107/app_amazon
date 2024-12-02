@@ -10,6 +10,7 @@ class AppRouteConstants {
   static const authRoute = AppRoute(name: 'auth-screen', path: '/auth-screen');
 
   static const bottomBarRoute = AppRoute(name: 'bottomBar', path: '/bottomBar');
+  static const shopRoute = AppRoute(name: 'shop-screen', path: '/shop-screen');
 
   static const homeScreenRoute =
       AppRoute(name: 'home-screen', path: '/home-screen');
