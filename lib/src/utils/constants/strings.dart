@@ -1,8 +1,11 @@
-const secureUri = 'http://192.168.0.21:3000';
+const secureUri = 'http://192.168.0.100:3000';
 String uri = secureUri;
 
 String signUpUrl = '$uri/api/signup';
 String signInUrl = '$uri/api/signin';
+String signInShopUrl = '$uri/shop/signin';
+String signUpShopUrl = '$uri/shop/register';
+String shopUrl = '$uri/api/shop';
 String isTokenValidUri = '$uri/IsTokenValid';
 
 String fetchCategoryProductsUri = '$uri/api/products?category=';
@@ -39,6 +42,7 @@ String getUserDataUri = '$uri/';
 
 String orderUri = '$uri/api/order';
 String placeOrderBuyNowUri = '$uri/api/place-order-buy-now';
+String voucherUri = '$uri/api/vouchers';
 
 //admin
 String adminGetCategoryProductsUri = '$uri/admin/get-category-product';
