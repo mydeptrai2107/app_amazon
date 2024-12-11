@@ -89,40 +89,40 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              // const SizedBox(height: 10),
               // if (address.isNotEmpty)
-              BlocBuilder<OrderCubit, OrderState>(
-                builder: (context, state) {
-                  if (state is OrderProcessS) {
-                    return state.user.address == ''
-                        ? const SizedBox()
-                        : Column(
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black12)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    state.user.address,
-                                    style: const TextStyle(fontSize: 18),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const Text(
-                                'OR',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ],
-                          );
-                  }
-                  return const SizedBox();
-                },
-              ),
+              // BlocBuilder<OrderCubit, OrderState>(
+              //   builder: (context, state) {
+              //     if (state is OrderProcessS) {
+              //       return state.user.address == ''
+              //           ? const SizedBox()
+              //           : Column(
+              //               children: [
+              //                 Container(
+              //                   width: double.infinity,
+              //                   decoration: BoxDecoration(
+              //                       border: Border.all(color: Colors.black12)),
+              //                   child: Padding(
+              //                     padding: const EdgeInsets.all(8.0),
+              //                     child: Text(
+              //                       state.user.address,
+              //                       style: const TextStyle(fontSize: 18),
+              //                     ),
+              //                   ),
+              //                 ),
+              //                 const SizedBox(
+              //                   height: 20,
+              //                 ),
+              //                 const Text(
+              //                   'OR',
+              //                   style: TextStyle(fontSize: 18),
+              //                 ),
+              //               ],
+              //             );
+              //     }
+              //     return const SizedBox();
+              //   },
+              // ),
               const SizedBox(
                 height: 20,
               ),
@@ -132,7 +132,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   children: [
                     CustomTextfield(
                       controller: flatBuildingController,
-                      hintText: 'Căn hộ, số nhà, tòa nhà',
+                      hintText: 'Số điện thoại',
                       onChanged: (string) {
                         context
                             .read<OrderCubit>()
@@ -141,7 +141,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                     CustomTextfield(
                       controller: areaController,
-                      hintText: 'Xã, Phường',
+                      hintText: 'Số nhà, Xã/Phường',
                     ),
                     CustomTextfield(
                       controller: pincodeController,
