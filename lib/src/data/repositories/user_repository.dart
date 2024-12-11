@@ -347,7 +347,7 @@ class UserRepository {
     }
   }
 
-  Future<Order> placeOrder(
+  Future<void> placeOrder(
       {required double totalPrice,
       required String address,
       bool paid = false,
@@ -362,12 +362,12 @@ class UserRepository {
           payMethod: payMethod);
 
       if (res.statusCode == 200) {
-        Order order = Order.fromJson(
-          jsonEncode(
-            jsonDecode(res.body),
-          ),
-        );
-        return order;
+        // Order order = Order.fromJson(
+        //   jsonEncode(
+        //     jsonDecode(res.body),
+        //   ),
+        // );
+        // return order;
       } else {
         throw Exception(jsonDecode(res.body)['msg']);
       }

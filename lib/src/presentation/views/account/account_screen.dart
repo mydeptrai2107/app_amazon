@@ -289,7 +289,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                                 imageUrl: state
                                                     .keepShoppingForList[index]
                                                     .images[0],
-                                                height: 110,
+                                                height: 90,
                                               ),
                                             ),
                                             const SizedBox(height: 5),

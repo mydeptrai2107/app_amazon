@@ -10,8 +10,8 @@ sealed class AdminFetchCategoryProductsEvent extends Equatable {
 final class AdminFetchCategoryProductsPressedE
     extends AdminFetchCategoryProductsEvent {
   final String category;
-
-  const AdminFetchCategoryProductsPressedE({required this.category});
+  final String id;
+  const AdminFetchCategoryProductsPressedE(this.id, {required this.category});
 
   @override
   List<Object> get props => [category];

@@ -192,7 +192,7 @@ class CartScreen extends StatelessWidget {
                                       const SizedBox(height: 10),
                                       CustomElevatedButton(
                                         buttonText:
-                                            'Tiến hành mua (1 sản phẩm)',
+                                            'Tiến hành mua',
                                         onPressed: () {
                                           context.pushNamed(
                                               AppRouteConstants

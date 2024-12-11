@@ -331,10 +331,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       return;
                     }
                     context.pushReplacementNamed(
-                        AppRouteConstants.buyNowPaymentScreenRoute.name,
-                        extra: {
-                          'product': product,
-                        });
+                        AppRouteConstants.cartScreenScreenRoute.name,
+                        );
                   },
                   color: Constants.secondaryColor,
                 ),

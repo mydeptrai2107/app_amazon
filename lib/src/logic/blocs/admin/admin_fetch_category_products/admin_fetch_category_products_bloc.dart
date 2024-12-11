@@ -16,7 +16,8 @@ class AdminFetchCategoryProductsBloc extends Bloc<
     on<AdminDeleteProductPressedE>(_onAdminDeleteProductHandler);
   }
 
-  void _onAdminFetchCategoryProductsHandler(event, emit) async {
+  void _onAdminFetchCategoryProductsHandler(
+      AdminFetchCategoryProductsPressedE event, emit) async {
     try {
       List<Product> categoryProducts;
       List<Product> tempCategoryProducts;
@@ -24,11 +25,10 @@ class AdminFetchCategoryProductsBloc extends Bloc<
 
       tempCategoryProducts = await adminRepository.adminGetCategoryProducts(
           category: event.category);
-
-      categoryProducts = tempCategoryProducts.reversed.toList();
-
+      categoryProducts = tempCategoryProducts.where((e) => e.shopId == event.id).toList();
+      final newList = categoryProducts.reversed.toList();
       emit(AdminFetchCategoryProductsSuccessS(
-          categoryProducts: categoryProducts));
+          categoryProducts: newList));
     } catch (e) {
       emit(AdminFetchCategoryProductsErrorS(errorString: e.toString()));
     }

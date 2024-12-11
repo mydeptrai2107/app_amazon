@@ -7,7 +7,7 @@ import 'package:flutter_amazon_clone_bloc/src/data/datasources/api/category_prod
 class CategoryProductsRepository {
   final CategoryProductsApi categoryProductsApi = CategoryProductsApi();
 
-  Future<List<Product>> fetchCategoryProducts(
+    Future<List<Product>> fetchCategoryProducts(
       String category, String? shopId) async {
     List<Product> productList = [];
 
@@ -25,10 +25,11 @@ class CategoryProductsRepository {
             ),
           );
         }
+        if (shopId == null) {
+          return productList;
+        }
 
-        return productList
-            .where((product) => product.shopId == shopId)
-            .toList();
+        return productList.where((product) => product.shopId == shopId).toList();
       } else {
         throw Exception(jsonDecode(res.body)['msg']);
       }
@@ -36,4 +37,5 @@ class CategoryProductsRepository {
       throw e.toString();
     }
   }
+
 }

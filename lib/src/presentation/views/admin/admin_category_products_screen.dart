@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_amazon_clone_bloc/src/config/router/app_route_constants.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/admin/admin_fetch_category_products/admin_fetch_category_products_bloc.dart';
+import 'package:flutter_amazon_clone_bloc/src/logic/blocs/user_cubit/user_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/admin/admin_home_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/widgets/account/single_product.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/widgets/common_widgets/custom_app_bar.dart';
@@ -14,9 +15,10 @@ class AdminCategoryProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   final id = context.read<UserCubit>().currentUser!.id;
     context
         .read<AdminFetchCategoryProductsBloc>()
-        .add(AdminFetchCategoryProductsPressedE(category: category));
+        .add(AdminFetchCategoryProductsPressedE(id,category: category));
 
     return Scaffold(
       appBar: const PreferredSize(

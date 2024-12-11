@@ -149,7 +149,7 @@ class CartProduct extends StatelessWidget {
                               // deleteProduct(product);
                             }),
                         CustomTextButton(
-                            buttonText: 'Lưu lại sau',
+                            buttonText: 'Lưu lại',
                             onPressed: () {
                               context
                                   .read<CartBloc>()
