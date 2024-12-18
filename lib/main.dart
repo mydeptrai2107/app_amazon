@@ -43,6 +43,7 @@ import 'package:flutter_amazon_clone_bloc/src/logic/blocs/search/bloc/search_blo
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/shop/shop_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/user_cubit/user_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -55,6 +56,12 @@ Future<void> main() async {
   ]);
   HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory());
+
+  Stripe.publishableKey =
+      "pk_test_51QTIW2HHqgNZgsFpmdFB0wgYndxb7Y2PUIH96MGxKORsj5EOEOUSVlcVWp4NaxuudYMJmJ19W8VEDSZZPIZopyLa00t7FKJcFO";
+  Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+  Stripe.urlScheme = 'flutterstripe';
+  await Stripe.instance.applySettings();
   runApp(const MyApp());
 }
 

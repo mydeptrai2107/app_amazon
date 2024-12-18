@@ -296,9 +296,12 @@ class ProductDetailsScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'Còn hàng',
-                  style: TextStyle(color: Constants.greenColor, fontSize: 16),
+                Text(
+                  'Còn hàng | ${product.quantity} sản phảm',
+                  style: const TextStyle(
+                    color: Constants.greenColor,
+                    fontSize: 16,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -331,8 +334,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       return;
                     }
                     context.pushReplacementNamed(
-                        AppRouteConstants.cartScreenScreenRoute.name,
-                        );
+                      AppRouteConstants.cartScreenScreenRoute.name,
+                    );
                   },
                   color: Constants.secondaryColor,
                 ),

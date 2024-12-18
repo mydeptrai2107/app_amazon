@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_amazon_clone_bloc/src/data/models/user.dart';
 import 'package:flutter_amazon_clone_bloc/src/data/repositories/payment.dart';
 import 'package:flutter_amazon_clone_bloc/src/data/repositories/user_repository.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:pay/pay.dart';
+import 'package:http/http.dart' as http;
 
 part 'order_state.dart';
 
@@ -123,6 +128,11 @@ class OrderCubit extends Cubit<OrderState> {
             payMethod: payMethod);
         return true;
       }
+
+      if (payMethod == 'stripe') {
+        await makePayment(
+            address: address, totalAmount: totalAmount, payMethod: payMethod);
+      }
       var result = await createOrder(totalAmount);
       if (result != null) {
         final zpTransToken = result.zptranstoken;
@@ -142,6 +152,83 @@ class OrderCubit extends Cubit<OrderState> {
     } catch (e) {
       emit(OrderErrorS(errorString: e.toString()));
       return false;
+    }
+  }
+
+  Future<void> makePayment(
+      {required String address,
+      required double totalAmount,
+      required String payMethod,
+      String? voucherCode}) async {
+    try {
+      await initPaymentSheet(
+        address: address,
+        totalAmount: totalAmount,
+        payMethod: payMethod,
+        voucherCode: voucherCode,
+      );
+    } catch (e) {
+      emit(OrderErrorS(errorString: e.toString()));
+    }
+  }
+
+  Future<void> initPaymentSheet(
+      {required String address,
+      required double totalAmount,
+      required String payMethod,
+      String? voucherCode}) async {
+    try {
+      final data = await createPaymentIntent(400000.round().toString(), 'vnd');
+
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          merchantDisplayName: 'Prospects',
+          paymentIntentClientSecret: data['client_secret'],
+          customerEphemeralKeySecret: data['ephemeralKey'],
+          customerId: data['customer'],
+          googlePay: const PaymentSheetGooglePay(
+            merchantCountryCode: 'US',
+            testEnv: true,
+          ),
+          style: ThemeMode.dark,
+        ),
+      );
+
+      await Stripe.instance.presentPaymentSheet().then(
+        (value) async {
+          await userRepository.placeOrder(
+              totalPrice: totalAmount,
+              voucherCode: voucherCode,
+              address: address,
+              paid: true,
+              payMethod: payMethod);
+          return true;
+        },
+      );
+    } catch (e) {
+      emit(OrderErrorS(errorString: e.toString()));
+    }
+  }
+
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      Map<String, dynamic> body = {
+        'amount': amount,
+        'currency': currency,
+      };
+
+      var response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        headers: {
+          'Authorization':
+              'Bearer sk_test_51QTIW2HHqgNZgsFpMyOOSw9T59eoFnDQJmBabbuc137sT3kj04vEyM3yZMwv3NH6986v6BXLKk3cgjU130INVblL00JHGdY3ON',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body,
+      );
+      return json.decode(response.body);
+    } catch (err) {
+      throw Exception(err.toString());
     }
   }
 }

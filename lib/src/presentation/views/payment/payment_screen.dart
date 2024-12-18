@@ -201,7 +201,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       'Phương thức thanh toán: ',
                       style: Theme.of(context)
                           .textTheme
-                          .bodySmall?.copyWith(fontWeight: FontWeight.bold),
+                          .bodySmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -213,12 +214,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           return Text(
                             state.paymentMethod == 'cod'
                                 ? 'Thanh toán khi nhận hàng'
-                                : 'Thanh toán với ZaloPay',
+                                : state.paymentMethod == 'stripe'
+                                    ? 'Thanh toán với Stripe'
+                                    : 'Thanh toán với Zalopay',
                             style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(
-                                color: Constants.secondaryColor),
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: Constants.secondaryColor),
                           );
                         }
                         return const Text(
@@ -271,63 +273,65 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         onPressed: () async {
                                           if (payState
                                               is PaymentMethodSelected) {
-                                          showSnackBar(context,
-                                              'Đơn hàng đã được đặt thành công! chuyển hướng...');
-                                          if (state.user.address == '') {
-                                            context
-                                                .read<UserCubit>()
-                                                .saveUserAddress(
-                                                    address:
-                                                        '${flatBuildingController.text}, ${areaController.text}, ${pincodeController.text}, ${cityController.text}');
-                                          }
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  const Center(
-                                                    child:
-                                                        CircularProgressIndicator(),
-                                                  ));
-                                          final success = await context
-                                              .read<OrderCubit>()
-                                              .placeOrder(
+                                            showSnackBar(context,
+                                                'Đơn hàng đã được đặt thành công! chuyển hướng...');
+                                            if (state.user.address == '') {
+                                              context
+                                                  .read<UserCubit>()
+                                                  .saveUserAddress(
+                                                      address:
+                                                          '${flatBuildingController.text}, ${areaController.text}, ${pincodeController.text}, ${cityController.text}');
+                                            }
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    const Center(
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    ));
+                                            final success = await context
+                                                .read<OrderCubit>()
+                                                .placeOrder(
                                                   address:
                                                       '${flatBuildingController.text}, ${areaController.text}, ${pincodeController.text}, ${cityController.text}',
-                                                  voucherCode:voucher?.code,  totalAmount: double.parse(
+                                                  voucherCode: voucher?.code,
+                                                  totalAmount: double.parse(
                                                       widget.totalAmount),
                                                   payMethod:
-                                                      payState.paymentMethod);
-                                          context.pop();
-                                          showDialog(
-                                              context: context,
+                                                      payState.paymentMethod,
+                                                );
+                                            context.pop();
+                                            showDialog(
+                                                context: context,
                                                 builder: (context) =>
                                                     AlertDialog(
-                                                    content: Text(success
-                                                        ? "Thanh toán thành công"
-                                                        : "Thanh toán thất bại"),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          if (success) {
-                                                            context
-                                                                .read<
-                                                                    CartBloc>()
-                                                                .add(
-                                                                    GetCartPressed());
-                                                            context.pop();
-                                                            context.pop();
-                                                          }
-                                                        },
-                                                        child: Text(success
-                                                            ? 'Tiếp tục'
-                                                            : 'Thử lại'),
-                                                      ),
-                                                    ],
-                                                  ));
-                                        } else {
-                                          showSnackBar(context,
-                                              'Vui lòng chọn phương thức thanh toán');
-                                        }
-                                      },
+                                                      content: Text(success
+                                                          ? "Thanh toán thành công"
+                                                          : "Thanh toán thất bại"),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            if (success) {
+                                                              context
+                                                                  .read<
+                                                                      CartBloc>()
+                                                                  .add(
+                                                                      GetCartPressed());
+                                                              context.pop();
+                                                              context.pop();
+                                                            }
+                                                          },
+                                                          child: Text(success
+                                                              ? 'Tiếp tục'
+                                                              : 'Thử lại'),
+                                                        ),
+                                                      ],
+                                                    ));
+                                          } else {
+                                            showSnackBar(context,
+                                                'Vui lòng chọn phương thức thanh toán');
+                                          }
+                                        },
                                         child: const Text('Order'),
                                       );
                                     },
@@ -419,7 +423,6 @@ class GPayDisabledButton extends StatelessWidget {
             'Order',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          
         ],
       ),
     );

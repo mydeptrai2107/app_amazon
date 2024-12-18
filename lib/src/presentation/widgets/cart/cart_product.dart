@@ -43,9 +43,11 @@ class CartProduct extends StatelessWidget {
                   ),
                   Row(children: [
                     InkWell(
-                      onTap: () => context
-                          .read<CartBloc>()
-                          .add(RemoveFromCart(product: product)),
+                      onTap: () {
+                        context
+                            .read<CartBloc>()
+                            .add(RemoveFromCart(product: product));
+                      },
                       child: const CustomIconbutton(
                           iconName: Icons.remove, isRight: false),
                     ),
@@ -75,9 +77,15 @@ class CartProduct extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: () => context
-                          .read<CartBloc>()
-                          .add(AddToCart(product: product)),
+                      onTap: () {
+                        if (quantity >= product.quantity) {
+                          showSnackBar(context, 'Hết hàng');
+                          return;
+                        }
+                        context
+                            .read<CartBloc>()
+                            .add(AddToCart(product: product));
+                      },
                       child: const CustomIconbutton(
                         iconName: Icons.add,
                         isRight: true,
@@ -127,9 +135,9 @@ class CartProduct extends StatelessWidget {
                         color: Colors.black54,
                       ),
                     ),
-                    const Text(
-                      'Còn hàng',
-                      style: TextStyle(
+                    Text(
+                      'Còn hàng | ${product.quantity} sản phảm',
+                      style: const TextStyle(
                         fontSize: 14,
                         color: Constants.greenColor,
                       ),

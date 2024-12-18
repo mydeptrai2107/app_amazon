@@ -36,6 +36,18 @@ class PaymentMethodScreen extends StatelessWidget {
               context.read<PaymentCubit>().selectPaymentMethod('zalopay');
               context.pop();
             },
+          ),
+          ListTile(
+            leading: Image.asset(
+              'assets/images/stripe.png',
+              width: 32,
+              height: 32,
+            ),
+            title: const Text('Thanh toán với Stripe'),
+            onTap: () {
+              context.read<PaymentCubit>().selectPaymentMethod('stripe');
+              context.pop();
+            },
           )
         ],
       ),
