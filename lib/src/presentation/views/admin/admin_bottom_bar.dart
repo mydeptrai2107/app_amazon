@@ -111,7 +111,7 @@ class AdminBottomBar extends StatelessWidget {
                     ),
                     page: 0,
                     index: state.index,
-                    label: 'Home'),
+                    label: 'Trang chủ'),
                 bottomNavBarItem(
                     icon: const Icon(
                       Icons.analytics_outlined,
@@ -119,7 +119,7 @@ class AdminBottomBar extends StatelessWidget {
                     ),
                     page: 1,
                     index: state.index,
-                    label: 'Analytics'),
+                    label: 'Phân tích'),
                 bottomNavBarItem(
                     icon: const Icon(
                       Icons.featured_video_outlined,
@@ -127,7 +127,7 @@ class AdminBottomBar extends StatelessWidget {
                     ),
                     page: 2,
                     index: state.index,
-                    label: 'Offers'),
+                    label: 'Ưu đãi'),
                 bottomNavBarItem(
                     icon: const Icon(
                       Icons.local_shipping_outlined,
@@ -135,7 +135,7 @@ class AdminBottomBar extends StatelessWidget {
                     ),
                     page: 3,
                     index: state.index,
-                    label: 'Orders'),
+                    label: 'Đơn hàng'),
                 bottomNavBarItem(
                     icon: const Icon(
                       Icons.wallet_giftcard,
@@ -143,7 +143,7 @@ class AdminBottomBar extends StatelessWidget {
                     ),
                     page: 4,
                     index: state.index,
-                    label: 'Vouchers'),
+                    label: 'Mã khuyến mãi'),
               ],
             ),
           ),

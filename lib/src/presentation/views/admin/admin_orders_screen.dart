@@ -40,7 +40,7 @@ class AdminOrdersScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       margin: const EdgeInsets.symmetric(vertical: 4),
                       child: Text(
-                        'Total ${state.ordersList.length} Orders',
+                        '${state.ordersList.length} Đơn hàng',
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),

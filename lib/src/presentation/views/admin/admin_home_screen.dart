@@ -35,7 +35,7 @@ class AdminHomeScreen extends StatelessWidget {
               Map<String, String> category = Constants.menuScreenImages[index];
 
               return MenuCategoryContainerAdmin(
-                title: category['category']!,
+                title: category['name']!,
                 category: category['category']!,
                 imageLink: category['image']!,
               );
@@ -90,8 +90,13 @@ class MenuCategoryContainerAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.pushNamed(AppRouteConstants.adminCategoryProductsScreen.name,
-            extra: category);
+        context.pushNamed(
+          AppRouteConstants.adminCategoryProductsScreen.name,
+          extra: {
+            'category': category,
+            'title': title,
+          },
+        );
       },
       child: Container(
         height: 170,
@@ -101,10 +106,11 @@ class MenuCategoryContainerAdmin extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
-                color: Colors.grey.shade500.withOpacity(0.35),
-                blurRadius: 3,
-                offset: const Offset(0, 0),
-                spreadRadius: 3)
+              color: Colors.grey.shade500.withOpacity(0.35),
+              blurRadius: 3,
+              offset: const Offset(0, 0),
+              spreadRadius: 3,
+            ),
           ],
           border: Border.all(color: Colors.grey.shade500, width: 1),
         ),
@@ -136,20 +142,21 @@ class MenuCategoryContainerAdmin extends StatelessWidget {
               ),
             ),
             Positioned(
-                left: 16,
-                top: 10,
-                child: SizedBox(
-                  width: 100,
-                  child: Text(
-                    title,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16,
-                    ),
+              left: 16,
+              top: 10,
+              child: SizedBox(
+                width: 100,
+                child: Text(
+                  title,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
                   ),
-                )),
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -219,7 +219,7 @@ class _AdminAddProductScreenState extends State<AdminAddProductScreen> {
                     ),
                     CustomTextfield(
                       controller: productNameController,
-                      hintText: 'Product name',
+                      hintText: 'Tên sản phẩm',
                       maxLines: 2,
                     ),
                     const SizedBox(
@@ -227,19 +227,19 @@ class _AdminAddProductScreenState extends State<AdminAddProductScreen> {
                     ),
                     CustomTextfield(
                       controller: descriptionController,
-                      hintText: 'Description',
+                      hintText: 'Mô tả',
                       maxLines: 8,
                     ),
                     const SizedBox(
                       height: 4,
                     ),
                     CustomTextfield(
-                        controller: priceController, hintText: 'Price'),
+                        controller: priceController, hintText: 'Giá'),
                     const SizedBox(
                       height: 4,
                     ),
                     CustomTextfield(
-                        controller: quantityController, hintText: 'Quantity'),
+                        controller: quantityController, hintText: 'Số lượng'),
                     const SizedBox(
                       height: 8,
                     ),

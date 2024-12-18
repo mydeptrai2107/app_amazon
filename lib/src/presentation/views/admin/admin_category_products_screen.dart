@@ -10,15 +10,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AdminCategoryProductsScreen extends StatelessWidget {
-  const AdminCategoryProductsScreen({super.key, required this.category});
+  const AdminCategoryProductsScreen({
+    super.key,
+    required this.category,
+    required this.title,
+  });
   final String category;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-   final id = context.read<UserCubit>().currentUser!.id;
+    final id = context.read<UserCubit>().currentUser!.id;
     context
         .read<AdminFetchCategoryProductsBloc>()
-        .add(AdminFetchCategoryProductsPressedE(id,category: category));
+        .add(AdminFetchCategoryProductsPressedE(id, category: category));
 
     return Scaffold(
       appBar: const PreferredSize(
@@ -59,7 +64,7 @@ class AdminCategoryProductsScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8),
                         margin: const EdgeInsets.symmetric(vertical: 4),
                         child: Text(
-                          '${state.categoryProducts.length} Results in $category',
+                          '${state.categoryProducts.length} kết quả cho $title',
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w300),
                         ),

@@ -166,7 +166,8 @@ final router = GoRouter(initialLocation: '/', routes: [
       return MaterialPage(
           child: BlocProvider.value(
         value: _fetchCategoryProductsBloc
-          ..add(CategoryPressedEvent(category: category!, shopId: state.extra as String?)),
+          ..add(CategoryPressedEvent(
+              category: category!, shopId: state.extra as String?)),
         child: CategoryProductsScreen(category: category),
       ));
     },
@@ -299,11 +300,15 @@ final router = GoRouter(initialLocation: '/', routes: [
     path: AppRouteConstants.adminCategoryProductsScreen.path,
     name: AppRouteConstants.adminCategoryProductsScreen.name,
     pageBuilder: (context, state) {
-      String category = state.extra as String;
+      Map<String, dynamic> extraData = state.extra as Map<String, dynamic>;
+
+      String category = extraData['category'] as String;
+      String title = extraData['title'] as String;
 
       return MaterialPage(
           child: AdminCategoryProductsScreen(
         category: category,
+        title: title,
       ));
     },
   ),
