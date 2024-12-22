@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_amazon_clone_bloc/src/data/models/product.dart';
+import 'package:flutter_amazon_clone_bloc/src/data/repositories/user_repository.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/cart/cart_bloc.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/category_products/fetch_category_products_bloc/fetch_category_products_bloc.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/widgets/cart/add_to_card_offer.dart';
@@ -10,14 +11,16 @@ import 'custom_icon_button.dart';
 import 'custom_text_button.dart';
 
 class CartProduct extends StatelessWidget {
-  const CartProduct({super.key, required this.quantity, required this.product});
+  CartProduct({super.key, required this.quantity, required this.product});
 
   final int quantity;
   final Product product;
+  final UserRepository userRepository = UserRepository();
 
   @override
   Widget build(BuildContext context) {
     String price = formatPriceWithDecimal(product.price);
+    final controller = TextEditingController(text: quantity.toString());
 
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -52,7 +55,7 @@ class CartProduct extends StatelessWidget {
                           iconName: Icons.remove, isRight: false),
                     ),
                     Container(
-                      height: 30,
+                      height: 50,
                       width: 40,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -68,12 +71,53 @@ class CartProduct extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Text(
-                        quantity.toString(),
+                      child: TextField(
+                        controller: controller,
+                        textAlign: TextAlign.center,
+                        onSubmitted: (value) async {
+                          if (int.parse(controller.text) > quantity) {
+                            if (int.parse(controller.text) > product.quantity) {
+                              showSnackBar(context, 'Quá số lượng trong kho');
+                              controller.text = quantity.toString();
+                              return;
+                            }
+
+                            for (int i = quantity;
+                                i < int.parse(controller.text) - 1;
+                                i++) {
+                              await userRepository.addToCart(product: product);
+                            }
+                            context
+                                .read<CartBloc>()
+                                .add(AddToCart(product: product));
+                          } else if (int.parse(controller.text) < quantity) {
+                            if (int.parse(controller.text) <= 0) {
+                              showSnackBar(context, 'Số lượng không hợp lệ');
+                              controller.text = quantity.toString();
+                              return;
+                            }
+
+                            for (int i = quantity;
+                                i > int.parse(controller.text) + 1;
+                                i--) {
+                              await userRepository.removeFromCart(
+                                  product: product);
+                            }
+                            context
+                                .read<CartBloc>()
+                                .add(RemoveFromCart(product: product));
+                          }
+                        },
                         style: TextStyle(
-                            color: Constants.selectedNavBarColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
+                          color: Constants.selectedNavBarColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(0),
+                        ),
                       ),
                     ),
                     InkWell(
@@ -82,9 +126,10 @@ class CartProduct extends StatelessWidget {
                           showSnackBar(context, 'Hết hàng');
                           return;
                         }
-                        context
-                            .read<CartBloc>()
-                            .add(AddToCart(product: product));
+
+                        context.read<CartBloc>().add(
+                              AddToCart(product: product),
+                            );
                       },
                       child: const CustomIconbutton(
                         iconName: Icons.add,

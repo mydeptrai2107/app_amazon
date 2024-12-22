@@ -104,22 +104,6 @@ class SingleListingProduct extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // const SizedBox(height: 4),
-                    RichText(
-                      text: TextSpan(
-                          text: 'Get it by ',
-                          style: productTextStyle,
-                          children: [
-                            TextSpan(
-                              text: deliveryDate,
-                              style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff56595A)),
-                            )
-                          ]),
-                    ),
-                    // const SizedBox(height: 4),
                     const Text(
                       'Giao hàng MIỄN PHÍ bởi LovuxShop',
                       style: productTextStyle,

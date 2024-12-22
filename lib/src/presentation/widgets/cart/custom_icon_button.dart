@@ -14,7 +14,7 @@ class CustomIconbutton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 35,
-      height: 30,
+      height: 50,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey, width: 0.5),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "829048459141",
+    "project_id": "fir-c14e3",
+    "storage_bucket": "fir-c14e3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829048459141:android:1daa5f1884604dd2cf3eec",
+        "android_client_info": {
+          "package_name": "com.example.flutter_amazon_clone_bloc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF9v0ngpHJxndsalaK32-olCnuK0fzivU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

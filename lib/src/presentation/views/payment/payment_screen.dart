@@ -126,38 +126,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Form(
-                key: _addressFormKey,
-                child: Column(
-                  children: [
-                    CustomTextfield(
-                      controller: flatBuildingController,
-                      hintText: 'Số điện thoại',
-                      onChanged: (string) {
-                        context
-                            .read<OrderCubit>()
-                            .addPaymentItem(totalAmount: widget.totalAmount);
-                      },
-                    ),
-                    CustomTextfield(
-                      controller: areaController,
-                      hintText: 'Số nhà, Xã/Phường',
-                    ),
-                    CustomTextfield(
-                      controller: pincodeController,
-                      hintText: 'Quận, Huyện',
-                    ),
-                    CustomTextfield(
-                      controller: cityController,
-                      hintText: 'Tỉnh, Thành phố',
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    )
-                  ],
-                ),
-              ),
-
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -201,7 +169,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       'Phương thức thanh toán: ',
                       style: Theme.of(context)
                           .textTheme
-                          .bodySmall
+                          .titleSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     GestureDetector(
@@ -219,7 +187,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     : 'Thanh toán với Zalopay',
                             style: Theme.of(context)
                                 .textTheme
-                                .bodySmall
+                                .titleSmall
                                 ?.copyWith(color: Constants.secondaryColor),
                           );
                         }
@@ -231,7 +199,38 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     )
                   ],
                 ),
-              )
+              ),
+              Form(
+                key: _addressFormKey,
+                child: Column(
+                  children: [
+                    CustomTextfield(
+                      controller: flatBuildingController,
+                      hintText: 'Số điện thoại',
+                      onChanged: (string) {
+                        context
+                            .read<OrderCubit>()
+                            .addPaymentItem(totalAmount: widget.totalAmount);
+                      },
+                    ),
+                    CustomTextfield(
+                      controller: areaController,
+                      hintText: 'Số nhà, Xã/Phường',
+                    ),
+                    CustomTextfield(
+                      controller: pincodeController,
+                      hintText: 'Quận, Huyện',
+                    ),
+                    CustomTextfield(
+                      controller: cityController,
+                      hintText: 'Tỉnh, Thành phố',
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -406,7 +405,7 @@ class GPayDisabledButton extends StatelessWidget {
       hoverElevation: 0,
       highlightElevation: 0,
       onPressed: () {
-        showSnackBar(context, 'Please enter your address');
+        showSnackBar(context, 'Vui lòng nhập địa chỉ của bạn');
       },
       constraints: const BoxConstraints(maxHeight: 50, minHeight: 50),
       shape: RoundedRectangleBorder(
