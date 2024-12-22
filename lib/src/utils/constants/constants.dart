@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/widgets/home/single_image_offer.dart';
 
 class Constants {
+  static const String urlUser =
+      "https://static.vecteezy.com/system/resources/previews/005/129/844/non_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg";
 // COLORS
   static const appBarGradient = LinearGradient(
     colors: [

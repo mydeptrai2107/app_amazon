@@ -10,6 +10,7 @@ import 'package:flutter_amazon_clone_bloc/src/utils/constants/constants.dart';
 import 'package:flutter_amazon_clone_bloc/src/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
@@ -21,6 +22,7 @@ class ShopScreen extends StatefulWidget {
 class _ShopScreenState extends State<ShopScreen> {
   final UserRepository userRepository = UserRepository();
   late User? user;
+  bool isLogin = false;
 
   @override
   void initState() {
@@ -30,6 +32,13 @@ class _ShopScreenState extends State<ShopScreen> {
 
   initData() async {
     user = await userRepository.getUserData();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('x-auth-token');
+    if (token == null || token.isEmpty) {
+      isLogin = false;
+    } else {
+      isLogin = true;
+    }
   }
 
   @override
@@ -73,30 +82,31 @@ class _ShopScreenState extends State<ShopScreen> {
                           ],
                         ),
                         const Spacer(),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ChatScreen(
-                                  currentUser: ChatModel(
-                                    email: user!.address,
-                                    name: user!.name,
-                                    image:
-                                        'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-                                    date: Timestamp.now(),
-                                    uid: user!.id,
+                        if (isLogin)
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ChatScreen(
+                                    chatModel: ChatModel(
+                                      email: user!.address,
+                                      name: user!.name,
+                                      image:
+                                          'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
+                                      date: Timestamp.now(),
+                                      uid: user!.id,
+                                    ),
+                                    friendId: state.shop.id,
+                                    friendImage:
+                                        'https://img.freepik.com/free-vector/shop-with-sign-open-design_23-2148544029.jpg',
+                                    friendName: state.shop.name,
                                   ),
-                                  friendId: state.shop.id,
-                                  friendImage:
-                                      'https://img.freepik.com/free-vector/shop-with-sign-open-design_23-2148544029.jpg',
-                                  friendName: state.shop.name,
                                 ),
-                              ),
-                            );
-                          },
-                          icon: const Icon(Icons.chat_rounded),
-                        ),
+                              );
+                            },
+                            icon: const Icon(Icons.chat_rounded),
+                          ),
                       ],
                     ),
                     const Divider(),

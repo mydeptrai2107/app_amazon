@@ -51,10 +51,15 @@ class _AuthScreenState extends State<AuthScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset(
-                  'assets/images/amazon_in.png',
-                  height: 40,
-                  width: 50,
+                InkWell(
+                  onTap: () {
+                    context.replaceNamed(AppRouteConstants.splashScreen.name);
+                  },
+                  child: Image.asset(
+                    'assets/images/amazon_in.png',
+                    height: 40,
+                    width: 50,
+                  ),
                 ),
                 const SizedBox.square(
                   dimension: 12,

@@ -5,14 +5,14 @@ import 'package:flutter_amazon_clone_bloc/src/presentation/widgets/chat/message_
 import 'package:flutter_amazon_clone_bloc/src/presentation/widgets/chat/single_message.dart';
 
 class ChatScreen extends StatelessWidget {
-  final ChatModel currentUser;
+  final ChatModel chatModel;
   final String friendId;
   final String friendName;
   final String friendImage;
 
   const ChatScreen({
     super.key,
-    required this.currentUser,
+    required this.chatModel,
     required this.friendId,
     required this.friendName,
     required this.friendImage,
@@ -55,7 +55,7 @@ class ChatScreen extends StatelessWidget {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('users')
-                    .doc(currentUser.uid)
+                    .doc(chatModel.uid)
                     .collection('messages')
                     .doc(friendId)
                     .collection('chats')
@@ -74,7 +74,7 @@ class ChatScreen extends StatelessWidget {
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, index) {
                         bool isMe = snapshot.data.docs[index]['senderId'] ==
-                            currentUser.uid;
+                            chatModel.uid;
                         return SingleMessage(
                             snapshot.data.docs[index]['message'], isMe);
                       },
@@ -87,7 +87,7 @@ class ChatScreen extends StatelessWidget {
               ),
             ),
           ),
-          MessageTextField(currentUser.uid, friendId),
+          MessageTextField(chatModel.uid, friendId),
         ],
       ),
     );

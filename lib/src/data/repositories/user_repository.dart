@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter_amazon_clone_bloc/src/data/datasources/api/user_apis.dart';
-import 'package:flutter_amazon_clone_bloc/src/data/models/order.dart';
 import 'package:flutter_amazon_clone_bloc/src/data/models/product.dart';
 import 'package:flutter_amazon_clone_bloc/src/data/models/user.dart';
 import 'package:flutter_amazon_clone_bloc/src/data/models/voucher.dart';
@@ -45,6 +44,25 @@ class UserRepository {
                   jsonDecode(res.body),
                 ),
               );
+        return user;
+      } else {
+        throw Exception(jsonDecode(res.body)['msg']);
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<User> getUserById(String id) async {
+    try {
+      http.Response res = await userApi.getUserById(id);
+
+      if (res.statusCode == 200) {
+        User user = User.fromJson(
+          jsonEncode(
+            jsonDecode(res.body),
+          ),
+        );
         return user;
       } else {
         throw Exception(jsonDecode(res.body)['msg']);

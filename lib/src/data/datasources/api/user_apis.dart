@@ -80,6 +80,20 @@ class UserApi {
     }
   }
 
+  Future<http.Response> getUserById(String id) async {
+    try {
+      http.Response res = await client.get(
+        Uri.parse(getUserIdtUri + id),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      return res;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   Future<http.Response> addToCart({required Product product}) async {
     final token = await getToken();
 

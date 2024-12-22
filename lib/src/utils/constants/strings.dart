@@ -28,6 +28,7 @@ String isWishListedUri = '$uri/api/is-wishlisted';
 String addToCartFromWishListUri = '$uri/api/add-to-cart-from-wish-list';
 
 String getCartUri = '$uri/api/get-cart';
+String getUserIdtUri = '$uri/api/get-user/';
 String addToCartUri = '$uri/api/add-to-cart';
 String removeFromCartUri = '$uri/api/remove-from-cart';
 String deleteFromCartUri = '$uri/api/delete-from-cart';

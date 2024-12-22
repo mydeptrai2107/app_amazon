@@ -78,6 +78,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('x-auth-token', user.token);
+      await prefs.setString('shop-id', user.id);
       await prefs.setBool('is-shop', event.isShop);
 
       emit(UpdateUserData(user: user));

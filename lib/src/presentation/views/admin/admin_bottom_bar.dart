@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_amazon_clone_bloc/src/config/router/app_route_constants.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/admin/admin_bottom_bar_cubit/admin_bottom_bar_cubit.dart';
 import 'package:flutter_amazon_clone_bloc/src/logic/blocs/user_cubit/user_cubit.dart';
-import 'package:flutter_amazon_clone_bloc/src/presentation/views/admin/admin_offers_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/admin/admin_home_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/presentation/views/admin/admin_vouchers_screen.dart';
+import 'package:flutter_amazon_clone_bloc/src/presentation/views/admin/consulting_screen.dart';
 import 'package:flutter_amazon_clone_bloc/src/utils/constants/constants.dart';
 import 'package:flutter_amazon_clone_bloc/src/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +24,7 @@ class AdminBottomBar extends StatelessWidget {
     List<Widget> pages = [
       const AdminHomeScreen(),
       const AdminAnalyticsScreen(),
-      const AdminOffersScreen(),
+      const ConsultingScreen(),
       const AdminOrdersScreen(),
       const AdminVouchersScreen()
     ];
@@ -122,12 +122,12 @@ class AdminBottomBar extends StatelessWidget {
                     label: 'Phân tích'),
                 bottomNavBarItem(
                     icon: const Icon(
-                      Icons.featured_video_outlined,
+                      Icons.chat_rounded,
                       size: 26,
                     ),
                     page: 2,
                     index: state.index,
-                    label: 'Ưu đãi'),
+                    label: 'Tư vấn'),
                 bottomNavBarItem(
                     icon: const Icon(
                       Icons.local_shipping_outlined,
